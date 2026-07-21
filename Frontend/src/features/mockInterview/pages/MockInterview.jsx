@@ -51,7 +51,8 @@ const MockInterview = () => {
   } = useSpeechToText();
 
   // Mode state: 'setup' -> 'in_progress' -> 'feedback_wait' -> 'completed'
-  const [mode, setMode] = useState("setup");
+  const [mode, setMode] = useState(paramSessionId ? "in_progress" : "setup");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Fetch recent mock sessions when in setup mode
   useEffect(() => {
@@ -188,6 +189,7 @@ const MockInterview = () => {
       stopListening();
     }
 
+    setIsSubmitting(true);
     try {
       // Save current question so we can store it in history along with feedback
       const currentQText = currentQuestion;
@@ -217,6 +219,8 @@ const MockInterview = () => {
       toast.error(
         err?.message || "Failed to evaluate answer. Please try again.",
       );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -242,14 +246,7 @@ const MockInterview = () => {
     );
   }
 
-  if (loading && paramSessionId) {
-    return (
-      <main className="loading-screen">
-        <div className="loading-spinner"></div>
-        <h1>Loading interview session...</h1>
-      </main>
-    );
-  }
+
 
   // Render Setup view
   if (mode === "setup") {
@@ -573,7 +570,7 @@ const MockInterview = () => {
 
   // Render Live Session In-Progress view
   if (mode === "in_progress" || mode === "feedback_wait") {
-    const progressPercent = ((questionNumber - 1) / totalQuestions) * 100;
+    const progressPercent = totalQuestions > 0 ? Math.max(0, ((questionNumber - 1) / totalQuestions) * 100) : 0;
 
     return (
       <div className="mock-interview-page">
@@ -600,7 +597,13 @@ const MockInterview = () => {
 
           <div className="question-box">
             <h3>Interviewer Question</h3>
-            <p>{currentQuestion}</p>
+            {currentQuestion ? (
+              <p>{currentQuestion}</p>
+            ) : (
+              <p style={{ color: "var(--text-muted)", fontStyle: "italic" }}>
+                Loading question...
+              </p>
+            )}
           </div>
 
           {mode === "in_progress" ? (
@@ -657,14 +660,14 @@ const MockInterview = () => {
                 <button
                   onClick={handleSubmitAnswer}
                   className="btn-primary"
-                  disabled={loading || !typedAnswer.trim()}
+                  disabled={isSubmitting || !typedAnswer.trim()}
                   type="button"
                   style={{
                     padding: "10px 22px",
                     borderRadius: "var(--radius-md)",
                   }}
                 >
-                  {loading ? (
+                  {isSubmitting ? (
                     <div
                       style={{
                         display: "flex",
