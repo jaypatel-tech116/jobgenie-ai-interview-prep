@@ -63,12 +63,12 @@ const Footer = () => {
         <div className={styles.col}>
           <h4 className={styles.colTitle}>Contact</h4>
           <div className={styles.contacts}>
-            <a href="mailto:support@jobgenie.ai" className={styles.contact}>
+            <a href="mailto:jaypatel010126@gmail.com" className={styles.contact}>
               <Mail size={15} />
               support@jobgenie.ai
             </a>
             <a
-              href="https://github.com"
+              href="https://github.com/jaypatel-tech116/jobgenie-ai-interview-prep"
               target="_blank"
               rel="noopener noreferrer"
               className={styles.contact}
