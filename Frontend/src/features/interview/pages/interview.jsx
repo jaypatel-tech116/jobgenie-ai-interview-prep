@@ -174,12 +174,11 @@ const Interview = () => {
   const toast = useToast();
 
   useEffect(() => {
-    if (interviewId) {
-      setIsInitialMount(true);
-      getReportById(interviewId).finally(() => {
-        setIsInitialMount(false);
-      });
-    }
+    if (!interviewId) return;
+
+    getReportById(interviewId).finally(() => {
+      setIsInitialMount(false);
+    });
   }, [interviewId, getReportById]);
 
   // Load history list for compare view
@@ -365,17 +364,35 @@ const Interview = () => {
           {/* Left Nav Skeleton */}
           <nav className="interview-nav">
             <div className="nav-content">
-              <div style={{ marginBottom: "16px" }}><SkeletonBlock width="80px" height="16px" /></div>
+              <div style={{ marginBottom: "16px" }}>
+                <SkeletonBlock width="80px" height="16px" />
+              </div>
               {[1, 2, 3, 4].map((i) => (
                 <div key={i} style={{ marginBottom: "12px" }}>
-                  <SkeletonBlock width="100%" height="40px" borderRadius="var(--radius-md)" />
+                  <SkeletonBlock
+                    width="100%"
+                    height="40px"
+                    borderRadius="var(--radius-md)"
+                  />
                 </div>
               ))}
             </div>
             <div className="nav-actions">
-              <div className="sidebar-actions" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              <div
+                className="sidebar-actions"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "12px",
+                }}
+              >
                 {[1, 2, 3].map((i) => (
-                  <SkeletonBlock key={i} width="100%" height="42px" borderRadius="var(--radius-md)" />
+                  <SkeletonBlock
+                    key={i}
+                    width="100%"
+                    height="42px"
+                    borderRadius="var(--radius-md)"
+                  />
                 ))}
               </div>
             </div>
@@ -386,13 +403,30 @@ const Interview = () => {
           {/* Center Content Skeleton */}
           <main className="interview-content">
             <section>
-              <div className="content-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+              <div
+                className="content-header"
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: "20px",
+                }}
+              >
                 <SkeletonBlock width="220px" height="28px" />
                 <SkeletonBlock width="80px" height="20px" borderRadius="10px" />
               </div>
               <div className="q-list">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="q-card" style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "10px" }}>
+                  <div
+                    key={i}
+                    className="q-card"
+                    style={{
+                      padding: "20px",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "10px",
+                    }}
+                  >
                     <SkeletonBlock width="100%" height="20px" />
                     <SkeletonBlock width="70%" height="16px" />
                   </div>
@@ -405,7 +439,15 @@ const Interview = () => {
 
           {/* Right Sidebar Skeleton */}
           <aside className="interview-sidebar">
-            <div className="match-score" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "15px" }}>
+            <div
+              className="match-score"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "15px",
+              }}
+            >
               <SkeletonBlock width="80px" height="14px" />
               {/* Circular skeleton */}
               <SkeletonBlock width="120px" height="120px" borderRadius="50%" />
@@ -415,19 +457,34 @@ const Interview = () => {
             <div className="sidebar-divider" />
 
             <div className="skill-gaps">
-              <div style={{ marginBottom: "12px" }}><SkeletonBlock width="80px" height="14px" /></div>
+              <div style={{ marginBottom: "12px" }}>
+                <SkeletonBlock width="80px" height="14px" />
+              </div>
               <div className="skill-gaps__list">
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <SkeletonBlock key={i} width="85px" height="24px" borderRadius="var(--radius-sm)" />
+                  <SkeletonBlock
+                    key={i}
+                    width="85px"
+                    height="24px"
+                    borderRadius="var(--radius-sm)"
+                  />
                 ))}
               </div>
             </div>
 
             <div className="sidebar-divider sidebar-actions-divider" />
 
-            <div className="sidebar-actions" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+            <div
+              className="sidebar-actions"
+              style={{ display: "flex", flexDirection: "column", gap: "12px" }}
+            >
               {[1, 2, 3].map((i) => (
-                <SkeletonBlock key={i} width="100%" height="42px" borderRadius="var(--radius-md)" />
+                <SkeletonBlock
+                  key={i}
+                  width="100%"
+                  height="42px"
+                  borderRadius="var(--radius-md)"
+                />
               ))}
             </div>
           </aside>
@@ -455,7 +512,10 @@ const Interview = () => {
 
   // Compare to last report diff over stored data
   const currentIdx = reports.findIndex((r) => r._id === report._id);
-  const lastReport = currentIdx !== -1 && reports[currentIdx + 1] ? reports[currentIdx + 1] : null;
+  const lastReport =
+    currentIdx !== -1 && reports[currentIdx + 1]
+      ? reports[currentIdx + 1]
+      : null;
 
   return (
     <div className="interview-page">
@@ -473,7 +533,10 @@ const Interview = () => {
             <button className="rename-btn-save" onClick={handleSaveTitle}>
               Save
             </button>
-            <button className="rename-btn-cancel" onClick={() => setIsEditing(false)}>
+            <button
+              className="rename-btn-cancel"
+              onClick={() => setIsEditing(false)}
+            >
               Cancel
             </button>
           </div>
@@ -523,9 +586,7 @@ const Interview = () => {
               </button>
             ))}
           </div>
-          <div className="nav-actions">
-            {sidebarActionsMarkup}
-          </div>
+          <div className="nav-actions">{sidebarActionsMarkup}</div>
         </nav>
 
         <div className="interview-divider" />
@@ -584,37 +645,165 @@ const Interview = () => {
             <section>
               <div className="content-header">
                 <h2>ATS Resume Reader Compliance</h2>
-                <span className="content-header__count" style={{ background: "rgba(212, 160, 23, 0.15)", color: "var(--gold-light)", fontWeight: "bold" }}>
+                <span
+                  className="content-header__count"
+                  style={{
+                    background: "rgba(212, 160, 23, 0.15)",
+                    color: "var(--gold-light)",
+                    fontWeight: "bold",
+                  }}
+                >
                   Score: {report.atsScore || 0}%
                 </span>
               </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "25px" }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "25px",
+                }}
+              >
                 {/* Score Gauge representation */}
-                <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", padding: "20px", borderRadius: "var(--radius-md)", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                  <div style={{ width: "90px", height: "90px", borderRadius: "50%", border: "3px solid var(--gold-mid)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.8rem", fontWeight: "bold", color: "var(--gold-light)", marginBottom: "10px", boxShadow: "var(--glow-gold)" }}>
+                <div
+                  style={{
+                    background: "var(--bg-card)",
+                    border: "1px solid var(--border)",
+                    padding: "20px",
+                    borderRadius: "var(--radius-md)",
+                    textAlign: "center",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "90px",
+                      height: "90px",
+                      borderRadius: "50%",
+                      border: "3px solid var(--gold-mid)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "1.8rem",
+                      fontWeight: "bold",
+                      color: "var(--gold-light)",
+                      marginBottom: "10px",
+                      boxShadow: "var(--glow-gold)",
+                    }}
+                  >
                     {report.atsScore || 0}%
                   </div>
-                  <h4 style={{ margin: "5px 0", color: "var(--text-primary)" }}>Overall ATS Grade</h4>
-                  <p style={{ fontSize: "0.88rem", color: "var(--text-secondary)", maxWidth: "450px", margin: "0 auto" }}>
-                    ATS reader grade based on template styling, standard column grids, quantified metrics, and structural tags.
+                  <h4 style={{ margin: "5px 0", color: "var(--text-primary)" }}>
+                    Overall ATS Grade
+                  </h4>
+                  <p
+                    style={{
+                      fontSize: "0.88rem",
+                      color: "var(--text-secondary)",
+                      maxWidth: "450px",
+                      margin: "0 auto",
+                    }}
+                  >
+                    ATS reader grade based on template styling, standard column
+                    grids, quantified metrics, and structural tags.
                   </p>
                 </div>
 
                 {/* Issues List */}
                 <div>
-                  <h3 style={{ fontSize: "1.1rem", marginBottom: "15px", color: "var(--text-primary)" }}>Identified Layout &amp; Keyword Issues ({report.atsIssues?.length || 0})</h3>
-                  {(!report.atsIssues || report.atsIssues.length === 0) ? (
-                    <p style={{ color: "var(--text-muted)", fontSize: "0.95rem" }}>✓ Excellent compliance! No formatting issues detected.</p>
+                  <h3
+                    style={{
+                      fontSize: "1.1rem",
+                      marginBottom: "15px",
+                      color: "var(--text-primary)",
+                    }}
+                  >
+                    Identified Layout &amp; Keyword Issues (
+                    {report.atsIssues?.length || 0})
+                  </h3>
+                  {!report.atsIssues || report.atsIssues.length === 0 ? (
+                    <p
+                      style={{
+                        color: "var(--text-muted)",
+                        fontSize: "0.95rem",
+                      }}
+                    >
+                      ✓ Excellent compliance! No formatting issues detected.
+                    </p>
                   ) : (
-                    <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "15px",
+                      }}
+                    >
                       {report.atsIssues.map((item, idx) => (
-                        <div key={idx} style={{ background: "var(--bg-elevated)", border: "1px solid var(--border)", borderRadius: "var(--radius-md)", padding: "16px", borderLeft: `4px solid ${item.severity === 'high' ? '#ef4444' : item.severity === 'medium' ? '#eab308' : '#22c55e'}` }}>
-                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
-                            <span style={{ fontWeight: "600", color: "var(--text-primary)", fontSize: "0.95rem" }}>{item.issue}</span>
-                            <span style={{ fontSize: "0.75rem", fontWeight: "bold", padding: "2px 8px", borderRadius: "var(--radius-sm)", textTransform: "uppercase", background: item.severity === 'high' ? 'rgba(239, 68, 68, 0.1)' : item.severity === 'medium' ? 'rgba(234, 179, 8, 0.1)' : 'rgba(34, 197, 94, 0.1)', color: item.severity === 'high' ? '#ef4444' : item.severity === 'medium' ? '#eab308' : '#22c55e' }}>{item.severity}</span>
+                        <div
+                          key={idx}
+                          style={{
+                            background: "var(--bg-elevated)",
+                            border: "1px solid var(--border)",
+                            borderRadius: "var(--radius-md)",
+                            padding: "16px",
+                            borderLeft: `4px solid ${item.severity === "high" ? "#ef4444" : item.severity === "medium" ? "#eab308" : "#22c55e"}`,
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                              marginBottom: "8px",
+                            }}
+                          >
+                            <span
+                              style={{
+                                fontWeight: "600",
+                                color: "var(--text-primary)",
+                                fontSize: "0.95rem",
+                              }}
+                            >
+                              {item.issue}
+                            </span>
+                            <span
+                              style={{
+                                fontSize: "0.75rem",
+                                fontWeight: "bold",
+                                padding: "2px 8px",
+                                borderRadius: "var(--radius-sm)",
+                                textTransform: "uppercase",
+                                background:
+                                  item.severity === "high"
+                                    ? "rgba(239, 68, 68, 0.1)"
+                                    : item.severity === "medium"
+                                      ? "rgba(234, 179, 8, 0.1)"
+                                      : "rgba(34, 197, 94, 0.1)",
+                                color:
+                                  item.severity === "high"
+                                    ? "#ef4444"
+                                    : item.severity === "medium"
+                                      ? "#eab308"
+                                      : "#22c55e",
+                              }}
+                            >
+                              {item.severity}
+                            </span>
                           </div>
-                          <div style={{ fontSize: "0.88rem", color: "var(--text-muted)", background: "rgba(0, 0, 0, 0.15)", padding: "8px 12px", borderRadius: "var(--radius-sm)" }}>
-                            <strong style={{ color: "var(--gold-light)" }}>Action Fix:</strong> {item.fix}
+                          <div
+                            style={{
+                              fontSize: "0.88rem",
+                              color: "var(--text-muted)",
+                              background: "rgba(0, 0, 0, 0.15)",
+                              padding: "8px 12px",
+                              borderRadius: "var(--radius-sm)",
+                            }}
+                          >
+                            <strong style={{ color: "var(--gold-light)" }}>
+                              Action Fix:
+                            </strong>{" "}
+                            {item.fix}
                           </div>
                         </div>
                       ))}
@@ -624,14 +813,48 @@ const Interview = () => {
 
                 {/* Strengths List */}
                 <div>
-                  <h3 style={{ fontSize: "1.1rem", marginBottom: "15px", color: "var(--text-primary)" }}>Resume Strengths ({report.atsStrengths?.length || 0})</h3>
-                  {(!report.atsStrengths || report.atsStrengths.length === 0) ? (
-                    <p style={{ color: "var(--text-muted)", fontSize: "0.95rem" }}>No specific strengths highlighted.</p>
+                  <h3
+                    style={{
+                      fontSize: "1.1rem",
+                      marginBottom: "15px",
+                      color: "var(--text-primary)",
+                    }}
+                  >
+                    Resume Strengths ({report.atsStrengths?.length || 0})
+                  </h3>
+                  {!report.atsStrengths || report.atsStrengths.length === 0 ? (
+                    <p
+                      style={{
+                        color: "var(--text-muted)",
+                        fontSize: "0.95rem",
+                      }}
+                    >
+                      No specific strengths highlighted.
+                    </p>
                   ) : (
-                    <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "10px",
+                      }}
+                    >
                       {report.atsStrengths.map((str, idx) => (
-                        <div key={idx} style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "0.92rem", color: "var(--text-secondary)" }}>
-                          <span style={{ color: "#22c55e", fontWeight: "bold" }}>✓</span>
+                        <div
+                          key={idx}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "10px",
+                            fontSize: "0.92rem",
+                            color: "var(--text-secondary)",
+                          }}
+                        >
+                          <span
+                            style={{ color: "#22c55e", fontWeight: "bold" }}
+                          >
+                            ✓
+                          </span>
                           <span>{str}</span>
                         </div>
                       ))}
@@ -684,24 +907,65 @@ const Interview = () => {
           {lastReport && (
             <>
               <div className="sidebar-divider" />
-              <div className="compare-section" style={{ padding: "15px", background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)" }}>
-                <h4 style={{ margin: "0 0 10px 0", color: "var(--gold-light)", fontFamily: "var(--font-display)", fontSize: "0.95rem" }}>✦ Prep Progress</h4>
-                <p style={{ fontSize: "0.85rem", margin: "0 0 8px 0", color: "var(--text-secondary)" }}>
-                  Compared to last session: <br/>
-                  <span style={{ color: "var(--text-primary)" }}>{lastReport.title || "Previous report"}</span>
+              <div
+                className="compare-section"
+                style={{
+                  padding: "15px",
+                  background: "var(--bg-card)",
+                  border: "1px solid var(--border)",
+                  borderRadius: "var(--radius-lg)",
+                }}
+              >
+                <h4
+                  style={{
+                    margin: "0 0 10px 0",
+                    color: "var(--gold-light)",
+                    fontFamily: "var(--font-display)",
+                    fontSize: "0.95rem",
+                  }}
+                >
+                  ✦ Prep Progress
+                </h4>
+                <p
+                  style={{
+                    fontSize: "0.85rem",
+                    margin: "0 0 8px 0",
+                    color: "var(--text-secondary)",
+                  }}
+                >
+                  Compared to last session: <br />
+                  <span style={{ color: "var(--text-primary)" }}>
+                    {lastReport.title || "Previous report"}
+                  </span>
                 </p>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
-                  <span style={{ fontSize: "0.85rem" }}>Match Score Change:</span>
-                  <span style={{
-                    fontWeight: "bold",
-                    color: report.matchScore >= lastReport.matchScore ? "#22c55e" : "#ef4444",
-                    fontSize: "0.9rem"
-                  }}>
-                    {report.matchScore >= lastReport.matchScore ? "+" : ""}{report.matchScore - lastReport.matchScore}%
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: "8px",
+                  }}
+                >
+                  <span style={{ fontSize: "0.85rem" }}>
+                    Match Score Change:
+                  </span>
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      color:
+                        report.matchScore >= lastReport.matchScore
+                          ? "#22c55e"
+                          : "#ef4444",
+                      fontSize: "0.9rem",
+                    }}
+                  >
+                    {report.matchScore >= lastReport.matchScore ? "+" : ""}
+                    {report.matchScore - lastReport.matchScore}%
                   </span>
                 </div>
                 <div style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>
-                  Last Match: {lastReport.matchScore}% &bull; Current: {report.matchScore}%
+                  Last Match: {lastReport.matchScore}% &bull; Current:{" "}
+                  {report.matchScore}%
                 </div>
               </div>
             </>

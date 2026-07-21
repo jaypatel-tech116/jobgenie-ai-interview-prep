@@ -133,12 +133,11 @@ const SharedReport = () => {
   const [isInitialMount, setIsInitialMount] = useState(true);
 
   useEffect(() => {
-    if (shareToken) {
-      setIsInitialMount(true);
-      fetchSharedReport(shareToken).finally(() => {
-        setIsInitialMount(false);
-      });
-    }
+    if (!shareToken) return;
+
+    fetchSharedReport(shareToken).finally(() => {
+      setIsInitialMount(false);
+    });
   }, [shareToken, fetchSharedReport]);
 
   if (loading || isInitialMount) {
@@ -157,8 +156,15 @@ const SharedReport = () => {
         <h1 style={{ background: "none", color: "#f87171" }}>
           Shared Report Not Found or Expired
         </h1>
-        <p style={{ color: "var(--text-secondary)", marginTop: "10px", fontSize: "1rem" }}>
-          The link you followed may be incorrect, or the report has been deleted.
+        <p
+          style={{
+            color: "var(--text-secondary)",
+            marginTop: "10px",
+            fontSize: "1rem",
+          }}
+        >
+          The link you followed may be incorrect, or the report has been
+          deleted.
         </p>
       </main>
     );
