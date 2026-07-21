@@ -1,7 +1,7 @@
 import { Outlet, useLocation, useNavigate } from "react-router";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import ScrollToTop from "../ScrollToTop/ScrollToTop";
 import { useAuth } from "../../features/auth/hooks/useAuth";
 
@@ -9,6 +9,7 @@ const AppLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const bannerRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,10 +45,32 @@ const AppLayout = () => {
 
   const showVerifyBanner = user && user.provider === "local" && !user.isEmailVerified;
 
+  useEffect(() => {
+    if (showVerifyBanner && bannerRef.current) {
+      const resizeObserver = new ResizeObserver((entries) => {
+        for (let entry of entries) {
+          const borderHeight = entry.target.getBoundingClientRect().height;
+          document.documentElement.style.setProperty(
+            "--verify-banner-height",
+            `${borderHeight}px`
+          );
+        }
+      });
+      resizeObserver.observe(bannerRef.current);
+      return () => resizeObserver.disconnect();
+    } else {
+      document.documentElement.style.setProperty(
+        "--verify-banner-height",
+        "0px"
+      );
+    }
+  }, [showVerifyBanner]);
+
   return (
     <>
       {showVerifyBanner && (
         <div
+          ref={bannerRef}
           className="verify-email-banner"
           style={{
             background: "rgba(212, 160, 23, 0.12)",
