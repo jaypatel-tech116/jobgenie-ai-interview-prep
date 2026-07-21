@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../auth.form.scss";
 import { useNavigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
@@ -15,6 +15,28 @@ const VerifyEmail = () => {
   const [sendingOtp, setSendingOtp] = useState(false);
   const [verifyingOtp, setVerifyingOtp] = useState(false);
   const [cooldown, setCooldown] = useState(0);
+  const hasSentAutoOtp = useRef(false);
+
+  // Auto-send OTP on first load
+  useEffect(() => {
+    if (user && !user.isEmailVerified && !hasSentAutoOtp.current) {
+      hasSentAutoOtp.current = true;
+      
+      const autoSend = async () => {
+        setSendingOtp(true);
+        try {
+          await requestEmailVerification();
+          toast.success("Verification OTP code sent to your email.");
+          setCooldown(60); // 60s cooldown
+        } catch (err) {
+          toast.error(err?.error || err?.message || "Failed to send OTP code.");
+        } finally {
+          setSendingOtp(false);
+        }
+      };
+      autoSend();
+    }
+  }, [user, toast]);
 
   // Guard: if user is not logged in or already verified, redirect
   useEffect(() => {
