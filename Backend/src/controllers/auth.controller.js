@@ -367,6 +367,7 @@ async function requestEmailVerificationController(req, res) {
     return res.status(500).json({
       success: false,
       message: "Server error sending verification email.",
+      error: error.message,
     });
   }
 }
