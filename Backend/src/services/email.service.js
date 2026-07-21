@@ -84,6 +84,42 @@ async function sendOtpEmail({ to, otp, purpose }) {
       return { success: true, messageId: response.data.messageId };
     }
 
+    // MAILJET HTTP API FALLBACK (Alternative Free tier HTTP API)
+    if (process.env.MAILJET_API_KEY && process.env.MAILJET_SECRET_KEY) {
+      logger.info(`MAILJET_API_KEY found, sending email to ${to} via Mailjet HTTP API...`);
+      const response = await axios.post(
+        "https://api.mailjet.com/v3.1/send",
+        {
+          Messages: [
+            {
+              From: {
+                Email: process.env.EMAIL_FROM || "noreply@jobgenie.com",
+                Name: "JobGenie",
+              },
+              To: [
+                {
+                  Email: to,
+                },
+              ],
+              Subject: subject,
+              HTMLPart: html,
+            },
+          ],
+        },
+        {
+          auth: {
+            username: process.env.MAILJET_API_KEY,
+            password: process.env.MAILJET_SECRET_KEY,
+          },
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      logger.info(`Email sent via Mailjet API successfully to ${to}: ${response.data.Messages[0].To[0].MessageID}`);
+      return { success: true, messageId: response.data.Messages[0].To[0].MessageID };
+    }
+
     // Default SMTP fallback
     const logoPath = path.join(__dirname, "../assets/MainLogo.png");
 
