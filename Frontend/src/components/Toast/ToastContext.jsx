@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useState, useCallback } from "react";
+import { createContext, useContext, useState, useCallback, useMemo } from "react";
 import { ToastContainer } from "./Toast";
 
 const ToastContext = createContext(null);
@@ -17,12 +17,12 @@ export const ToastProvider = ({ children }) => {
     setTimeout(() => removeToast(id), duration);
   }, [removeToast]);
 
-  const toast = {
+  const toast = useMemo(() => ({
     success: (msg, dur) => addToast(msg, "success", dur),
     error: (msg, dur) => addToast(msg, "error", dur),
     info: (msg, dur) => addToast(msg, "info", dur),
     warning: (msg, dur) => addToast(msg, "warning", dur),
-  };
+  }), [addToast]);
 
   return (
     <ToastContext.Provider value={toast}>

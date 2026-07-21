@@ -43,10 +43,9 @@ const VerifyEmail = () => {
     if (!user) {
       navigate("/login");
     } else if (user.isEmailVerified) {
-      toast.info("Your email is already verified.");
-      navigate("/dashboard");
+      navigate("/");
     }
-  }, [user, navigate, toast]);
+  }, [user, navigate]);
 
   // Handle countdown for resend timer
   useEffect(() => {
@@ -79,10 +78,10 @@ const VerifyEmail = () => {
     setVerifyingOtp(true);
     try {
       await confirmEmailVerification({ otp });
-      toast.success("Email verified successfully! Opening Dashboard...");
+      toast.success("Email verified successfully! Opening Home Page...");
       // Update local context state
       setUser((prev) => (prev ? { ...prev, isEmailVerified: true } : null));
-      navigate("/dashboard");
+      navigate("/");
     } catch (err) {
       toast.error(err?.error || err?.message || "Verification failed. Try again.");
     } finally {
