@@ -32,7 +32,7 @@ async function sendOtpEmail({ to, otp, purpose }) {
     }
 
     const path = require("path");
-    const logoPath = path.join(__dirname, "../../../Frontend/src/images/MainLogo.png");
+    const logoPath = path.join(__dirname, "../assets/MainLogo.png");
 
     const html = buildOtpEmailHtml({ title, otp, message });
 
