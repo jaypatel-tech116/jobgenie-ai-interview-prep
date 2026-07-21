@@ -1,0 +1,683 @@
+$bp-md: 1040px;
+
+// ─── Keyframes ────────────────────────────────────────────────
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+// ─── Nav shell ────────────────────────────────────────────────
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: #0f0c1a;
+  border-bottom: 1px solid var(--border);
+  overflow-x: clip; // clip (not hidden) so sticky/fixed children still work
+
+  // Subtle gold top highlight
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(212, 160, 23, 0.5) 30%,
+      rgba(245, 200, 66, 0.7) 50%,
+      rgba(212, 160, 23, 0.5) 70%,
+      transparent 100%
+    );
+  }
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 28px;
+  height: var(--nav-height, 64px);
+
+  @media (max-width: $bp-md) {
+    padding: 0 16px;
+    height: 58px;
+  }
+}
+
+// ─── Logo ─────────────────────────────────────────────────────
+.logo {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 200px;
+  transition: opacity 0.2s ease;
+
+  @media (max-width: $bp-md) {
+    flex: initial;
+    width: auto;
+  }
+
+  img {
+    height: auto;
+    width: 155px;
+    display: block;
+
+    @media (max-width: $bp-md) {
+      height: 48px;
+    }
+  }
+
+  &:hover { opacity: 0.82; }
+}
+
+// ─── Desktop nav links ────────────────────────────────────────
+.links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 2px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @media (max-width: $bp-md) {
+    display: none;
+  }
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 7px 14px;
+  border-radius: var(--radius-md);
+  transition: color 0.2s ease;
+  white-space: nowrap;
+  position: relative;
+
+  &:hover {
+    color: var(--gold-light);
+
+    .linkText::after { transform: scaleX(1); }
+  }
+}
+
+.linkActive {
+  color: var(--gold-light) !important;
+
+  .linkText::after { transform: scaleX(1) !important; }
+}
+
+.linkText {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 3px;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    border-radius: 99px;
+    background: var(--gold-gradient);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+}
+
+.badge {
+  background: var(--gold-gradient);
+  color: #0b0914;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  border-radius: var(--radius-pill);
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+// ─── Desktop auth area ────────────────────────────────────────
+.auth {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 0 0 200px;
+
+  @media (max-width: $bp-md) {
+    display: none;
+  }
+}
+
+.authBtns {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btnLogin {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  padding: 7px 18px;
+  border-radius: var(--radius-md);
+  font-size: 0.855rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+
+  &:hover {
+    color: var(--gold-light);
+    border-color: rgba(212, 160, 23, 0.4);
+    background: rgba(212, 160, 23, 0.05);
+  }
+}
+
+.btnRegister {
+  background: var(--gold-gradient);
+  color: #0b0914;
+  border: none;
+  padding: 8px 20px;
+  border-radius: var(--radius-md);
+  font-size: 0.855rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: var(--glow-gold);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    opacity: 0.87;
+    transform: translateY(-1px);
+  }
+
+  &:active { transform: translateY(0); }
+}
+
+// ─── Avatar & dropdown ────────────────────────────────────────
+.avatarWrap {
+  position: relative;
+}
+
+.avatar {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2d1f6e 0%, #1a1530 100%);
+  border: 2px solid rgba(212, 160, 23, 0.45);
+  color: var(--gold-light);
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    border-color: var(--gold-light);
+    transform: scale(1.06);
+    box-shadow: 0 0 0 4px rgba(212, 160, 23, 0.12);
+  }
+}
+
+.onlineDot {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 9px;
+  height: 9px;
+  background: #22c55e;
+  border-radius: 50%;
+  border: 2px solid var(--bg-base, #0b0914);
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.6);
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  min-width: 220px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--gold-mid);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 20px 60px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+  animation: slideDown 0.22s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.dropHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px 14px;
+}
+
+.dropAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2d1f6e 0%, #1a1530 100%);
+  border: 1.5px solid rgba(212, 160, 23, 0.4);
+  color: var(--gold-light);
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dropMeta {
+  min-width: 0;
+  flex: 1;
+}
+
+.dropName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropEmail {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropDivider {
+  height: 1px;
+  background: var(--border);
+}
+
+.dropLinks {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0;
+}
+
+.dropLink {
+  display: flex;
+  align-items: center;
+  font-size: 0.855rem;
+  color: var(--text-secondary);
+  padding: 9px 18px;
+  transition: color 0.15s ease, background 0.15s ease;
+
+  &:hover {
+    color: var(--gold-light);
+    background: rgba(212, 160, 23, 0.06);
+  }
+}
+
+.dropLinkActive {
+  color: var(--gold-light) !important;
+  background: rgba(212, 160, 23, 0.08) !important;
+}
+
+.dropLogout {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: #f87171;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 12px 18px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: rgba(239, 68, 68, 0.1);
+  }
+}
+
+// ─── Hamburger ────────────────────────────────────────────────
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: var(--bg-elevated, rgba(255, 255, 255, 0.04));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 8px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+
+  @media (max-width: $bp-md) {
+    display: flex;
+  }
+
+  &:hover {
+    border-color: rgba(212, 160, 23, 0.38);
+    background: rgba(212, 160, 23, 0.06);
+  }
+
+  span {
+    display: block;
+    width: 18px;
+    height: 1.5px;
+    background: var(--text-secondary);
+    border-radius: 2px;
+    transition: background 0.2s ease, transform 0.28s ease, opacity 0.2s ease;
+    margin: 0 auto;
+  }
+}
+
+.burgerOpen {
+  border-color: rgba(212, 160, 23, 0.4) !important;
+  background: rgba(212, 160, 23, 0.08) !important;
+
+  span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: var(--gold-light); }
+  span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--gold-light); }
+}
+
+// ─── Backdrop ────────────────────────────────────────────────
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 3, 14, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: none;
+  z-index: 240;
+  animation: fadeIn 0.25s ease forwards;
+
+  @media (min-width: $bp-md) {
+    display: none;
+  }
+}
+
+// ─── Mobile drawer ────────────────────────────────────────────
+.mobile {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  height: 100dvh;
+  width: min(340px, 86vw);
+  max-width: 100vw;
+  background: var(--bg-card);
+  border-left: 1px solid var(--border);
+  transform: translateX(110%);   // push fully off-screen (110% clears border-left too)
+  visibility: hidden;
+  overflow: hidden;               // prevent any internal content from bleeding out
+  transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0s linear 0.32s;
+  z-index: 250;
+  display: flex;
+  flex-direction: column;
+  will-change: transform;        // promote to own compositor layer — no layout impact
+
+  // Gold left accent when open
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(212, 160, 23, 0.6) 20%,
+      rgba(245, 200, 66, 0.8) 50%,
+      rgba(212, 160, 23, 0.6) 80%,
+      transparent 100%
+    );
+    opacity: 0;
+    transition: opacity 0.32s ease;
+  }
+
+  @media (min-width: $bp-md) {
+    display: none;
+  }
+}
+
+.mobileOpen {
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0s linear 0s;
+
+  &::before { opacity: 1; }
+}
+
+.mobileInner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+// Drawer header
+.mobileTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.mobileLogo {
+  display: inline-flex;
+  align-items: center;
+  transition: opacity 0.2s ease;
+
+  &:hover { opacity: 0.8; }
+}
+
+.mobileClose {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-secondary);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+
+  &:hover {
+    color: var(--gold-light);
+    border-color: rgba(212, 160, 23, 0.35);
+    background: rgba(212, 160, 23, 0.06);
+  }
+}
+
+// Nav links in drawer
+.mobileNav {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 12px 0;
+  flex: 1;
+  gap: 4px;
+}
+
+.mobileLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.925rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  animation: slideInRight 0.3s ease both;
+
+  &:hover {
+    color: var(--gold-light);
+    background: rgba(212, 160, 23, 0.05);
+    border-color: rgba(212, 160, 23, 0.12);
+  }
+}
+
+.mobileLinkActive {
+  color: var(--gold-light) !important;
+  background: rgba(212, 160, 23, 0.07) !important;
+  border-color: rgba(212, 160, 23, 0.18) !important;
+}
+
+.mobileLinkText {
+  flex: 1;
+}
+
+.mobileBadge {
+  background: var(--gold-gradient);
+  color: #0b0914;
+  font-size: 0.55rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 2px 6px;
+  border-radius: var(--radius-pill);
+  text-transform: uppercase;
+}
+
+// Drawer bottom
+.mobileBottom {
+  padding: 12px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+// Logged-in user card
+.mobileUser {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mobileUserCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--bg-elevated, rgba(255, 255, 255, 0.03));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.mobileAvatar {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2d1f6e 0%, #1a1530 100%);
+  border: 2px solid rgba(212, 160, 23, 0.4);
+  color: var(--gold-light);
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  .onlineDot {
+    bottom: 0;
+    right: 0;
+    width: 8px;
+    height: 8px;
+  }
+}
+
+.mobileUserMeta {
+  min-width: 0;
+  flex: 1;
+}
+
+.mobileSignOut {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(239, 68, 68, 0.07);
+  border: 1px solid rgba(248, 113, 113, 0.22);
+  border-radius: var(--radius-md);
+  color: #f87171;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 11px 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    background: rgba(239, 68, 68, 0.14);
+    border-color: rgba(248, 113, 113, 0.38);
+  }
+}
+
+// Auth buttons in drawer
+.mobileAuth {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  a {
+    display: block;
+    text-align: center;
+    width: 100%;
+    padding: 12px 18px;
+    font-size: 0.9rem;
+  }
+
+  .btnRegister {
+    display: block;
+  }
+}
