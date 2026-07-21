@@ -7,10 +7,10 @@ const logger = require("../config/logger");
 const otpModel = require("../models/otp.model");
 const { sendOtpEmail } = require("../services/email.service");
 
-const admin = require("../config/firebaseAdmin");
+const {auth} = require("../config/firebaseAdmin");
 
 /**
- * @name registerUserCountroller
+ * @name registerUserController
  * @description Register a new user, expects username, email and password in the request body
  * @access Public
  */
@@ -214,7 +214,7 @@ async function googleAuthController(req, res) {
         decoded.uid = decoded.sub || decoded.user_id;
       }
     } else {
-      decoded = await admin.auth().verifyIdToken(token);
+      decoded = await auth.verifyIdToken(token);
     }
 
     if (!decoded) {

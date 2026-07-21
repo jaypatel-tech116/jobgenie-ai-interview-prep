@@ -1,23 +1,34 @@
-const admin = require("firebase-admin");
-
-// TODO(jay): base64-encode your real serviceAccountKey.json and put it in .env as FIREBASE_SERVICE_ACCOUNT_BASE64
-//   Linux/macOS: base64 -w0 src/config/serviceAccountKey.json
-//   Windows (PowerShell): [Convert]::ToBase64String([IO.File]::ReadAllBytes("src\config\serviceAccountKey.json"))
+const { initializeApp, cert, getApps } = require("firebase-admin/app");
+const { getAuth } = require("firebase-admin/auth");
 
 if (!process.env.FIREBASE_SERVICE_ACCOUNT_BASE64) {
   throw new Error(
-    "FIREBASE_SERVICE_ACCOUNT_BASE64 is not defined — see Backend/.env.example",
+    "FIREBASE_SERVICE_ACCOUNT_BASE64 environment variable is missing.",
   );
 }
 
-const serviceAccount = JSON.parse(
-  Buffer.from(process.env.FIREBASE_SERVICE_ACCOUNT_BASE64, "base64").toString(
-    "utf-8",
-  ),
-);
+let serviceAccount;
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+try {
+  const decoded = Buffer.from(
+    process.env.FIREBASE_SERVICE_ACCOUNT_BASE64,
+    "base64",
+  ).toString("utf8");
 
-module.exports = admin;
+  serviceAccount = JSON.parse(decoded);
+} catch (error) {
+  throw new Error(
+    `Failed to decode Firebase service account credentials: ${error.message}`,
+  );
+}
+
+const app =
+  getApps().length === 0
+    ? initializeApp({
+        credential: cert(serviceAccount),
+      })
+    : getApps()[0];
+
+const auth = getAuth(app);
+
+module.exports = auth;
