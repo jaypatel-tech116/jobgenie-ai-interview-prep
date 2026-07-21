@@ -12,7 +12,8 @@ const VerifyEmail = () => {
   const toast = useToast();
 
   const [otp, setOtp] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [sendingOtp, setSendingOtp] = useState(false);
+  const [verifyingOtp, setVerifyingOtp] = useState(false);
   const [cooldown, setCooldown] = useState(0);
 
   // Guard: if user is not logged in or already verified, redirect
@@ -34,7 +35,7 @@ const VerifyEmail = () => {
   }, [cooldown]);
 
   const handleSendOtp = async () => {
-    setLoading(true);
+    setSendingOtp(true);
     try {
       await requestEmailVerification();
       toast.success("Verification OTP code sent to your email.");
@@ -42,7 +43,7 @@ const VerifyEmail = () => {
     } catch (err) {
       toast.error(err?.message || "Failed to send OTP code.");
     } finally {
-      setLoading(false);
+      setSendingOtp(false);
     }
   };
 
@@ -53,7 +54,7 @@ const VerifyEmail = () => {
       return;
     }
 
-    setLoading(true);
+    setVerifyingOtp(true);
     try {
       await confirmEmailVerification({ otp });
       toast.success("Email verified successfully! Opening Dashboard...");
@@ -63,7 +64,7 @@ const VerifyEmail = () => {
     } catch (err) {
       toast.error(err?.message || "Verification failed. Try again.");
     } finally {
-      setLoading(false);
+      setVerifyingOtp(false);
     }
   };
 
@@ -107,25 +108,25 @@ const VerifyEmail = () => {
             </div>
           </div>
 
-          <button className="submitBtn" disabled={loading || otp.length !== 6}>
-            {loading ? "Verifying..." : "Verify Code"}
+          <button className="submitBtn" disabled={verifyingOtp || sendingOtp || otp.length !== 6}>
+            {verifyingOtp ? "Verifying..." : "Verify Code"}
           </button>
         </form>
 
         <div style={{ marginTop: "20px", display: "flex", justifyContent: "space-between", fontSize: "0.88rem" }}>
           <button
             onClick={handleSendOtp}
-            disabled={loading || cooldown > 0}
+            disabled={verifyingOtp || sendingOtp || cooldown > 0}
             style={{
               background: "none",
               border: "none",
-              color: cooldown > 0 ? "var(--text-muted)" : "var(--gold-light)",
-              cursor: cooldown > 0 ? "default" : "pointer",
+              color: cooldown > 0 || sendingOtp || verifyingOtp ? "var(--text-muted)" : "var(--gold-light)",
+              cursor: cooldown > 0 || sendingOtp || verifyingOtp ? "default" : "pointer",
               fontWeight: "600",
             }}
             type="button"
           >
-            {cooldown > 0 ? `Resend in ${cooldown}s` : "Request New Code"}
+            {sendingOtp ? "Sending..." : cooldown > 0 ? `Resend in ${cooldown}s` : "Request New Code"}
           </button>
 
           <button
