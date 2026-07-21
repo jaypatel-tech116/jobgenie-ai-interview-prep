@@ -8,10 +8,13 @@ function buildOtpEmailHtml({ title, otp, message }) {
       <tr>
         <td align="center">
           <table border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #140927; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); padding: 40px;">
-            <!-- Header/Logo -->
+            <!-- Header/Logo Text -->
             <tr>
               <td align="center" style="padding-bottom: 24px;">
-                <img src="cid:mainlogo" alt="JobGenie Logo" height="40" style="display: block; margin: 0 auto; outline: none; border: none;" />
+                <div style="font-family: Arial, Helvetica, sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 0.5px; line-height: 1.2;">
+                  <span style="color: #d4a017;">JobGenie</span>
+                  <span style="color: #ffffff; font-weight: 400; font-size: 18px;"> - AI Interview Prep</span>
+                </div>
               </td>
             </tr>
             <!-- Title -->
