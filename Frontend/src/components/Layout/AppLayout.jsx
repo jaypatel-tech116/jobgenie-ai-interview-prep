@@ -61,7 +61,7 @@ const AppLayout = () => {
             alignItems: "center",
             gap: "12px",
             position: "relative",
-            zIndex: 999,
+            zIndex: 210,
           }}
         >
           <span>⚠️ Your email is not verified. Please verify your email address to enable all actions.</span>
