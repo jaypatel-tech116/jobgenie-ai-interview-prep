@@ -59,6 +59,31 @@ async function sendOtpEmail({ to, otp, purpose }) {
       return { success: true, messageId: response.data.id };
     }
 
+    // BREVO HTTP API FALLBACK (Alternative Free tier HTTP API)
+    if (process.env.BREVO_API_KEY) {
+      logger.info(`BREVO_API_KEY found, sending email to ${to} via Brevo HTTP API...`);
+      const response = await axios.post(
+        "https://api.brevo.com/v3/smtp/email",
+        {
+          sender: {
+            name: "JobGenie",
+            email: process.env.EMAIL_FROM || "noreply@jobgenie.com",
+          },
+          to: [{ email: to }],
+          subject,
+          htmlContent: html,
+        },
+        {
+          headers: {
+            "api-key": process.env.BREVO_API_KEY,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      logger.info(`Email sent via Brevo API successfully to ${to}: ${response.data.messageId}`);
+      return { success: true, messageId: response.data.messageId };
+    }
+
     // Default SMTP fallback
     const path = require("path");
     const logoPath = path.join(__dirname, "../assets/MainLogo.png");
