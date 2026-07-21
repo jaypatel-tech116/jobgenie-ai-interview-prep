@@ -280,6 +280,7 @@ async function googleAuthController(req, res) {
     return res.status(401).json({
       success: false,
       message: "Invalid Google token",
+      error: error.message,
     });
   }
 }

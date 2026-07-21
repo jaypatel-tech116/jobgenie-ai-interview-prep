@@ -98,6 +98,14 @@ app.use((err, _req, res, _next) => {
     });
   }
 
+  // CORS errors
+  if (err.message === "Not allowed by CORS") {
+    return res.status(403).json({
+      success: false,
+      message: err.message,
+    });
+  }
+
   const statusCode = err.status || err.statusCode || 500;
   res.status(statusCode).json({
     success: false,
