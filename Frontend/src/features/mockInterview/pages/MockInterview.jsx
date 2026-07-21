@@ -244,74 +244,10 @@ const MockInterview = () => {
 
   if (loading && paramSessionId) {
     return (
-      <div className="mock-interview-page">
-        <header className="page-header" style={{ marginBottom: "30px" }}>
-          <SkeletonBlock width="350px" height="36px" />
-        </header>
-
-        <div className="live-session-container">
-          <div
-            className="progress-header"
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginBottom: "12px",
-            }}
-          >
-            <SkeletonBlock width="150px" height="20px" />
-            <SkeletonBlock width="60px" height="20px" borderRadius="4px" />
-          </div>
-
-          <div
-            className="progress-bar-container"
-            style={{ marginBottom: "25px" }}
-          >
-            <SkeletonBlock width="100%" height="8px" borderRadius="4px" />
-          </div>
-
-          <div
-            className="question-box"
-            style={{
-              padding: "20px",
-              display: "flex",
-              flexDirection: "column",
-              gap: "10px",
-              marginBottom: "24px",
-            }}
-          >
-            <SkeletonBlock width="140px" height="20px" />
-            <SkeletonBlock width="100%" height="18px" />
-            <SkeletonBlock width="80%" height="18px" />
-          </div>
-
-          <div
-            className="response-box"
-            style={{ display: "flex", flexDirection: "column", gap: "16px" }}
-          >
-            <SkeletonBlock
-              width="100%"
-              height="120px"
-              borderRadius="var(--radius-md)"
-            />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <SkeletonBlock width="40px" height="40px" borderRadius="50%" />
-              <div style={{ display: "flex", gap: "12px", width: "160px" }}>
-                <SkeletonBlock
-                  width="100%"
-                  height="40px"
-                  borderRadius="var(--radius-md)"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <main className="loading-screen">
+        <div className="loading-spinner"></div>
+        <h1>Loading interview session...</h1>
+      </main>
     );
   }
 
