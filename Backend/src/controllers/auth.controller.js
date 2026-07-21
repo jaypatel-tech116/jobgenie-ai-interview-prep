@@ -7,7 +7,7 @@ const logger = require("../config/logger");
 const otpModel = require("../models/otp.model");
 const { sendOtpEmail } = require("../services/email.service");
 
-const {auth} = require("../config/firebaseAdmin");
+const auth = require("../config/firebaseAdmin");
 
 /**
  * @name registerUserController
