@@ -2,6 +2,7 @@ const nodemailer = require("nodemailer");
 const logger = require("../config/logger");
 const { buildOtpEmailHtml } = require("../utils/emailTemplate");
 const axios = require("axios");
+const path = require("path");
 
 // Create standard transporter
 const transporter = nodemailer.createTransport({
@@ -32,8 +33,7 @@ async function sendOtpEmail({ to, otp, purpose }) {
       message = "We received a request to reset the password for your JobGenie account. Please enter this code to complete the password reset process:";
     }
 
-    const path = require("path");
-    logoPath = path.join(__dirname, "../assets/MainLogo.png");
+
 
     const html = buildOtpEmailHtml({ title, otp, message });
 
@@ -85,7 +85,6 @@ async function sendOtpEmail({ to, otp, purpose }) {
     }
 
     // Default SMTP fallback
-    const path = require("path");
     const logoPath = path.join(__dirname, "../assets/MainLogo.png");
 
     const mailOptions = {
