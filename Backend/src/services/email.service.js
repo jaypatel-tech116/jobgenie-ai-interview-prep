@@ -1,6 +1,7 @@
 const nodemailer = require("nodemailer");
 const logger = require("../config/logger");
 const { buildOtpEmailHtml } = require("../utils/emailTemplate");
+const axios = require("axios");
 
 // Create standard transporter
 const transporter = nodemailer.createTransport({
@@ -32,9 +33,35 @@ async function sendOtpEmail({ to, otp, purpose }) {
     }
 
     const path = require("path");
-    const logoPath = path.join(__dirname, "../assets/MainLogo.png");
+    logoPath = path.join(__dirname, "../assets/MainLogo.png");
 
     const html = buildOtpEmailHtml({ title, otp, message });
+
+    // RESEND HTTP API FALLBACK (Render Free tier blocks outbound SMTP ports 25, 465, and 587)
+    if (process.env.RESEND_API_KEY) {
+      logger.info(`RESEND_API_KEY found, sending email to ${to} via Resend HTTP API...`);
+      const response = await axios.post(
+        "https://api.resend.com/emails",
+        {
+          from: process.env.EMAIL_FROM || "onboarding@resend.dev",
+          to: [to],
+          subject,
+          html,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      logger.info(`Email sent via Resend API successfully to ${to}: ${response.data.id}`);
+      return { success: true, messageId: response.data.id };
+    }
+
+    // Default SMTP fallback
+    const path = require("path");
+    const logoPath = path.join(__dirname, "../assets/MainLogo.png");
 
     const mailOptions = {
       from: process.env.EMAIL_FROM || '"JobGenie Team" <noreply@jobgenie.com>',
