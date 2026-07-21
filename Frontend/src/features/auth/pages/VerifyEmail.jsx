@@ -41,7 +41,7 @@ const VerifyEmail = () => {
       toast.success("Verification OTP code sent to your email.");
       setCooldown(60); // 60s cooldown
     } catch (err) {
-      toast.error(err?.message || "Failed to send OTP code.");
+      toast.error(err?.error || err?.message || "Failed to send OTP code.");
     } finally {
       setSendingOtp(false);
     }
@@ -62,7 +62,7 @@ const VerifyEmail = () => {
       setUser((prev) => (prev ? { ...prev, isEmailVerified: true } : null));
       navigate("/dashboard");
     } catch (err) {
-      toast.error(err?.message || "Verification failed. Try again.");
+      toast.error(err?.error || err?.message || "Verification failed. Try again.");
     } finally {
       setVerifyingOtp(false);
     }
