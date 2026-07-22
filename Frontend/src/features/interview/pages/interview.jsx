@@ -355,38 +355,131 @@ const Interview = () => {
   if (loading || isInitialMount) {
     return (
       <div className="interview-page">
-        {/* Title Header Skeleton */}
-        <div className="report-header">
-          <SkeletonBlock width="350px" height="32px" />
-        </div>
+        <div className="interview-container">
+          {/* Title Header Skeleton */}
+          <div className="report-header">
+            <SkeletonBlock width="350px" height="32px" />
+          </div>
 
-        <div className="interview-layout">
-          {/* Left Nav Skeleton */}
-          <nav className="interview-nav">
-            <div className="nav-content">
-              <div style={{ marginBottom: "16px" }}>
-                <SkeletonBlock width="80px" height="16px" />
-              </div>
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} style={{ marginBottom: "12px" }}>
-                  <SkeletonBlock
-                    width="100%"
-                    height="40px"
-                    borderRadius="var(--radius-md)"
-                  />
+          <div className="interview-layout">
+            {/* Left Nav Skeleton */}
+            <nav className="interview-nav">
+              <div className="nav-content">
+                <div style={{ marginBottom: "16px" }}>
+                  <SkeletonBlock width="80px" height="16px" />
                 </div>
-              ))}
-            </div>
-            <div className="nav-actions">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} style={{ marginBottom: "12px" }}>
+                    <SkeletonBlock
+                      width="100%"
+                      height="40px"
+                      borderRadius="var(--radius-md)"
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="nav-actions">
+                <div
+                  className="sidebar-actions"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "12px",
+                  }}
+                >
+                  {[1, 2, 3, 4].map((i) => (
+                    <SkeletonBlock
+                      key={i}
+                      width="100%"
+                      height="42px"
+                      borderRadius="var(--radius-md)"
+                    />
+                  ))}
+                </div>
+              </div>
+            </nav>
+
+            <div className="interview-divider" />
+
+            {/* Center Content Skeleton */}
+            <main className="interview-content">
+              <section>
+                <div
+                  className="content-header"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: "20px",
+                  }}
+                >
+                  <SkeletonBlock width="220px" height="28px" />
+                  <SkeletonBlock width="80px" height="20px" borderRadius="10px" />
+                </div>
+                <div className="q-list">
+                  {[1, 2, 3].map((i) => (
+                    <div
+                      key={i}
+                      className="q-card"
+                      style={{
+                        padding: "20px",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "10px",
+                      }}
+                    >
+                      <SkeletonBlock width="100%" height="20px" />
+                      <SkeletonBlock width="70%" height="16px" />
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </main>
+
+            <div className="interview-divider" />
+
+            {/* Right Sidebar Skeleton */}
+            <aside className="interview-sidebar">
               <div
-                className="sidebar-actions"
+                className="match-score"
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  gap: "12px",
+                  alignItems: "center",
+                  gap: "15px",
                 }}
               >
-                {[1, 2, 3].map((i) => (
+                <SkeletonBlock width="80px" height="14px" />
+                {/* Circular skeleton */}
+                <SkeletonBlock width="120px" height="120px" borderRadius="50%" />
+                <SkeletonBlock width="180px" height="14px" />
+              </div>
+
+              <div className="sidebar-divider" />
+
+              <div className="skill-gaps">
+                <div style={{ marginBottom: "12px" }}>
+                  <SkeletonBlock width="80px" height="14px" />
+                </div>
+                <div className="skill-gaps__list">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <SkeletonBlock
+                      key={i}
+                      width="85px"
+                      height="24px"
+                      borderRadius="var(--radius-sm)"
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <div className="sidebar-divider sidebar-actions-divider" />
+
+              <div
+                className="sidebar-actions"
+                style={{ display: "flex", flexDirection: "column", gap: "12px" }}
+              >
+                {[1, 2, 3, 4].map((i) => (
                   <SkeletonBlock
                     key={i}
                     width="100%"
@@ -395,99 +488,8 @@ const Interview = () => {
                   />
                 ))}
               </div>
-            </div>
-          </nav>
-
-          <div className="interview-divider" />
-
-          {/* Center Content Skeleton */}
-          <main className="interview-content">
-            <section>
-              <div
-                className="content-header"
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginBottom: "20px",
-                }}
-              >
-                <SkeletonBlock width="220px" height="28px" />
-                <SkeletonBlock width="80px" height="20px" borderRadius="10px" />
-              </div>
-              <div className="q-list">
-                {[1, 2, 3].map((i) => (
-                  <div
-                    key={i}
-                    className="q-card"
-                    style={{
-                      padding: "20px",
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "10px",
-                    }}
-                  >
-                    <SkeletonBlock width="100%" height="20px" />
-                    <SkeletonBlock width="70%" height="16px" />
-                  </div>
-                ))}
-              </div>
-            </section>
-          </main>
-
-          <div className="interview-divider" />
-
-          {/* Right Sidebar Skeleton */}
-          <aside className="interview-sidebar">
-            <div
-              className="match-score"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: "15px",
-              }}
-            >
-              <SkeletonBlock width="80px" height="14px" />
-              {/* Circular skeleton */}
-              <SkeletonBlock width="120px" height="120px" borderRadius="50%" />
-              <SkeletonBlock width="180px" height="14px" />
-            </div>
-
-            <div className="sidebar-divider" />
-
-            <div className="skill-gaps">
-              <div style={{ marginBottom: "12px" }}>
-                <SkeletonBlock width="80px" height="14px" />
-              </div>
-              <div className="skill-gaps__list">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <SkeletonBlock
-                    key={i}
-                    width="85px"
-                    height="24px"
-                    borderRadius="var(--radius-sm)"
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div className="sidebar-divider sidebar-actions-divider" />
-
-            <div
-              className="sidebar-actions"
-              style={{ display: "flex", flexDirection: "column", gap: "12px" }}
-            >
-              {[1, 2, 3].map((i) => (
-                <SkeletonBlock
-                  key={i}
-                  width="100%"
-                  height="42px"
-                  borderRadius="var(--radius-md)"
-                />
-              ))}
-            </div>
-          </aside>
+            </aside>
+          </div>
         </div>
       </div>
     );
