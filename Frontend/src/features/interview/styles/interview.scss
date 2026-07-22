@@ -22,10 +22,14 @@ $bp-lg: 1100px;
   }
 }
 
+.interview-container {
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
 .interview-layout {
   width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
@@ -34,7 +38,7 @@ $bp-lg: 1100px;
   justify-content: space-between;
 
   @media (min-width: 1101px) {
-    min-height: calc(100vh - 160px);
+    min-height: calc(100vh - 200px);
   }
 
   @media (max-width: $bp-lg) {

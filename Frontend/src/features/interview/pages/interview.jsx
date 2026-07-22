@@ -519,58 +519,59 @@ const Interview = () => {
 
   return (
     <div className="interview-page">
-      {/* ── Title Header & Inline Edit ── */}
-      <div className="report-header">
-        {isEditing ? (
-          <div className="rename-container">
-            <input
-              type="text"
-              className="rename-input"
-              value={editTitle}
-              onChange={(e) => setEditTitle(e.target.value)}
-              placeholder="Enter title..."
-            />
-            <button className="rename-btn-save" onClick={handleSaveTitle}>
-              Save
-            </button>
-            <button
-              className="rename-btn-cancel"
-              onClick={() => setIsEditing(false)}
-            >
-              Cancel
-            </button>
-          </div>
-        ) : (
-          <div style={{ display: "flex", gap: "15px", alignItems: "center" }}>
-            <h1>{report.title || "Untitled Position"}</h1>
-            <button
-              className="rename-btn"
-              onClick={() => {
-                setEditTitle(report.title || "Untitled Position");
-                setIsEditing(true);
-              }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+      <div className="interview-container">
+        {/* ── Title Header & Inline Edit ── */}
+        <div className="report-header">
+          {isEditing ? (
+            <div className="rename-container">
+              <input
+                type="text"
+                className="rename-input"
+                value={editTitle}
+                onChange={(e) => setEditTitle(e.target.value)}
+                placeholder="Enter title..."
+              />
+              <button className="rename-btn-save" onClick={handleSaveTitle}>
+                Save
+              </button>
+              <button
+                className="rename-btn-cancel"
+                onClick={() => setIsEditing(false)}
               >
-                <path d="M12 20h9" />
-                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-              </svg>
-              Rename
-            </button>
-          </div>
-        )}
-      </div>
+                Cancel
+              </button>
+            </div>
+          ) : (
+            <div style={{ display: "flex", gap: "15px", alignItems: "center" }}>
+              <h1>{report.title || "Untitled Position"}</h1>
+              <button
+                className="rename-btn"
+                onClick={() => {
+                  setEditTitle(report.title || "Untitled Position");
+                  setIsEditing(true);
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M12 20h9" />
+                  <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                </svg>
+                Rename
+              </button>
+            </div>
+          )}
+        </div>
 
-      <div className="interview-layout">
+        <div className="interview-layout">
         {/* ── Left Nav ── */}
         <nav className="interview-nav">
           <div className="nav-content">
@@ -977,7 +978,8 @@ const Interview = () => {
         </aside>
       </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default Interview;
