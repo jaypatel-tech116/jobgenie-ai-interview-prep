@@ -1360,137 +1360,149 @@ ${jobDescription || "(not provided)"}`;
 
 /**
  * Returns combined mapped questions from report generation with robust multi-tier fallback.
+ * Guarantees unique, highly tailored questions based on Target Job Description and Candidate Context.
  */
 async function generateQuestionSet({ resume, jobDescription, selfDescription, difficulty }) {
-  // Step 1: Try generating via full report generator
-  try {
-    const reportData = await generateInterviewReport({ resume, jobDescription, selfDescription, difficulty });
-    const questions = [];
-    if (reportData && reportData.technicalQuestions) {
-      reportData.technicalQuestions.forEach((q) => {
-        questions.push({ question: q.question, modelAnswer: q.answer });
-      });
-    }
-    if (reportData && reportData.behavioralQuestions) {
-      reportData.behavioralQuestions.forEach((q) => {
-        questions.push({ question: q.question, modelAnswer: q.answer });
-      });
-    }
-    if (questions.length > 0) {
-      return questions;
-    }
-  } catch (err) {
-    logger.warn("Full report generation failed for mock questions: %s. Trying direct question generation...", err.message);
+  await rateLimit();
+
+  const uniqueSeed = Date.now().toString(36) + Math.random().toString(36).substring(2, 7);
+
+  const candidateContext = [];
+  if (resume && resume.trim()) {
+    candidateContext.push(`RESUME CONTENT:\n${resume.trim()}`);
+  }
+  if (selfDescription && selfDescription.trim()) {
+    candidateContext.push(`CANDIDATE SELF-DESCRIPTION & SKILLS:\n${selfDescription.trim()}`);
   }
 
-  // Step 2: Try direct fast question generation prompt
-  try {
-    await rateLimit();
-    const prompt = `You are a senior technical recruiter. Generate 5 mock interview questions (3 technical, 2 behavioral) for this job.
-Job Description: ${jobDescription}
-Difficulty Level: ${difficulty || "mid"}
-Candidate Context: ${selfDescription || "Not provided"}
+  const prompt = `You are an elite technical interviewer and recruiter.
+Generate a set of 5 UNIQUE, realistic, and highly specific interview questions (3 technical, 2 behavioral) customized specifically for the target job description and the candidate's context.
 
-Return ONLY a valid JSON array of 5 objects in this schema, with no markdown formatting:
+━ TARGET JOB DESCRIPTION ━
+${jobDescription}
+
+━ CANDIDATE CONTEXT ━
+${candidateContext.length > 0 ? candidateContext.join("\n\n") : "No resume/profile provided."}
+
+━ DIFFICULTY LEVEL ━
+${difficulty || "mid"}
+
+━ INSTRUCTIONS FOR UNIQUENESS ━
+- Unique Session Seed: ${uniqueSeed}
+- Do NOT generate generic or repetitive questions.
+- Reference specific skills, tools, frameworks, responsibilities, or scenarios mentioned in the candidate's resume/description and job description.
+- For technical questions: focus on architecture, code quality, trade-offs, and practical problem-solving for the required stack.
+- For behavioral questions: focus on team collaboration, conflict resolution, project delivery, and past achievements.
+
+Return ONLY a valid JSON array of 5 objects in this exact schema with no markdown formatting:
 [
   {
     "question": "string (the interview question)",
-    "modelAnswer": "string (detailed model answer guidance)"
+    "modelAnswer": "string (comprehensive guidance for a top-scoring response)"
   }
 ]`;
 
-    const providers = [
-      async () => {
-        logger.info("Direct Questions → Gemini 2.5-flash");
-        const res = await Promise.race([
-          ai.models.generateContent({
-            model: "gemini-2.5-flash",
-            contents: prompt,
-            config: { responseMimeType: "application/json" },
-          }),
-          new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 20000)),
-        ]);
-        return res.text;
-      },
-      async () => {
-        logger.info("Direct Questions → Gemini 2.0-flash");
-        const res = await Promise.race([
-          ai.models.generateContent({
-            model: "gemini-2.0-flash",
-            contents: prompt,
-            config: { responseMimeType: "application/json" },
-          }),
-          new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 20000)),
-        ]);
-        return res.text;
-      },
-      async () => {
-        if (!process.env.GROQ_API_KEY) throw new Error("No Groq API key");
-        logger.info("Direct Questions → Groq llama-3.3-70b");
-        const res = await Promise.race([
-          axios.post(
-            "https://api.groq.com/openai/v1/chat/completions",
-            {
-              model: "llama-3.3-70b-versatile",
-              messages: [{ role: "user", content: prompt }],
-              temperature: 0.5,
-              response_format: { type: "json_object" },
-            },
-            { headers: { Authorization: `Bearer ${process.env.GROQ_API_KEY}` } }
-          ),
-          new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 20000)),
-        ]);
-        return res.data.choices[0].message.content;
-      }
-    ];
-
-    for (const provider of providers) {
-      try {
-        const raw = await provider();
-        const parsed = safeParse(raw);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed.map((item) => ({
-            question: item.question || "Can you describe a challenging project you worked on?",
-            modelAnswer: item.modelAnswer || "Explain the problem, solution, technologies used, and key outcome.",
-          }));
-        }
-        if (parsed && Array.isArray(parsed.questions) && parsed.questions.length > 0) {
-          return parsed.questions.map((item) => ({
-            question: item.question || "Can you describe a challenging project you worked on?",
-            modelAnswer: item.modelAnswer || "Explain the problem, solution, technologies used, and key outcome.",
-          }));
-        }
-      } catch (e) {
-        logger.error("Direct Questions Provider failed: %s", e.message);
-      }
+  const providers = [
+    async () => {
+      logger.info("Generating Unique Mock Questions → Gemini 2.5-flash");
+      const res = await Promise.race([
+        ai.models.generateContent({
+          model: "gemini-2.5-flash",
+          contents: prompt,
+          config: {
+            responseMimeType: "application/json",
+            temperature: 0.8,
+          },
+        }),
+        new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 25000)),
+      ]);
+      return res.text;
+    },
+    async () => {
+      logger.info("Generating Unique Mock Questions → Gemini 2.0-flash");
+      const res = await Promise.race([
+        ai.models.generateContent({
+          model: "gemini-2.0-flash",
+          contents: prompt,
+          config: {
+            responseMimeType: "application/json",
+            temperature: 0.8,
+          },
+        }),
+        new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 25000)),
+      ]);
+      return res.text;
+    },
+    async () => {
+      if (!process.env.GROQ_API_KEY) throw new Error("No Groq API key");
+      logger.info("Generating Unique Mock Questions → Groq llama-3.3-70b");
+      const res = await Promise.race([
+        axios.post(
+          "https://api.groq.com/openai/v1/chat/completions",
+          {
+            model: "llama-3.3-70b-versatile",
+            messages: [{ role: "user", content: prompt }],
+            temperature: 0.8,
+            response_format: { type: "json_object" },
+          },
+          { headers: { Authorization: `Bearer ${process.env.GROQ_API_KEY}` } }
+        ),
+        new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 25000)),
+      ]);
+      return res.data.choices[0].message.content;
     }
-  } catch (err) {
-    logger.error("Direct question generation failed: %s", err.message);
+  ];
+
+  for (const provider of providers) {
+    try {
+      const raw = await provider();
+      const parsed = safeParse(raw);
+      if (Array.isArray(parsed) && parsed.length >= 3) {
+        return parsed.map((item) => ({
+          question: item.question || "Can you describe a challenging project you worked on?",
+          modelAnswer: item.modelAnswer || "Explain the problem, solution, technologies used, and key outcome.",
+        }));
+      }
+      if (parsed && Array.isArray(parsed.questions) && parsed.questions.length >= 3) {
+        return parsed.questions.map((item) => ({
+          question: item.question || "Can you describe a challenging project you worked on?",
+          modelAnswer: item.modelAnswer || "Explain the problem, solution, technologies used, and key outcome.",
+        }));
+      }
+    } catch (e) {
+      logger.error("Unique Questions Provider failed: %s", e.message);
+    }
   }
 
-  // Step 3: Reliable fallback questions so mock interview NEVER returns 500
-  logger.info("Using smart fallback questions for mock interview");
-  const jobTitleFirstLine = (jobDescription || "Target Role").split("\n")[0].substring(0, 60);
+  // Dynamic fallback incorporating JD and Context keywords
+  logger.info("Using dynamic fallback questions for mock interview");
+  const extractedSkills = Array.from(new Set(
+    (jobDescription + " " + (selfDescription || "") + " " + (resume || ""))
+      .match(/\b(React|Node|JavaScript|TypeScript|Python|Java|C\+\+|Go|Rust|Docker|Kubernetes|AWS|Azure|SQL|MongoDB|PostgreSQL|GraphQL|REST|System Design|Microservices|CI\/CD|Tailwind|Redux|Next\.js|Git)\b/gi) || ["Software Engineering", "System Architecture"]
+  )).join(", ");
+
+  const roleTitle = jobDescription.split("\n")[0].substring(0, 50).trim() || "target position";
+
   return [
     {
-      question: `Can you walk me through your relevant experience and explain how your background aligns with the requirements of this role (${jobTitleFirstLine})?`,
-      modelAnswer: "Structure your response highlighting core technologies, relevant experience, key achievements, and enthusiasm for the position."
+      question: `Walk me through your background and technical experience in ${extractedSkills}. How have you applied these skills to deliver results relevant to this ${roleTitle} position?`,
+      modelAnswer: `Detail specific projects utilizing ${extractedSkills}, focusing on system design, technical decisions, and tangible outcomes.`
     },
     {
-      question: `Given the requirements in this job description, what technical architecture or methodologies would you use to deliver scalable solutions?`,
-      modelAnswer: "Focus on best design patterns, clean code principles, performance considerations, and automated testing."
+      question: `When building applications requiring ${extractedSkills}, how do you ensure high performance, security, and scalability under heavy load?`,
+      modelAnswer: "Focus on clean modular code, query optimization, caching strategies, asynchronous processing, and defensive error handling."
     },
     {
-      question: `Describe a time when you faced a major technical challenge or bug during development. How did you diagnose and resolve it?`,
-      modelAnswer: "Use the STAR method (Situation, Task, Action, Result) detailing your debugging process and key lessons learned."
+      question: `Describe a complex technical problem you encountered while working with ${extractedSkills}. What was your diagnostic strategy and how did you resolve it?`,
+      modelAnswer: "Use the STAR approach (Situation, Task, Action, Result) outlining root cause analysis, debugging tools used, and testing."
     },
     {
-      question: `How do you handle tight deadlines or shifting requirements when working on a critical feature?`,
-      modelAnswer: "Discuss prioritization, clear communication with stakeholders, trade-off evaluation, and maintaining code quality under pressure."
+      question: `How do you handle architectural trade-offs when business deadlines require fast delivery vs long-term technical debt?`,
+      modelAnswer: "Discuss pragmatic engineering, refactoring strategies, stakeholder alignment, and incremental improvements."
     },
     {
-      question: `What steps do you take to continuously improve your technical skills and stay updated with modern industry practices?`,
-      modelAnswer: "Mention side projects, documentation reading, open source contributions, peer reviews, and adopting modern tooling."
+      question: `Tell me about a situation where you had to collaborate with cross-functional team members to deliver a feature under tight constraints.`,
+      modelAnswer: "Emphasize clear communication, agile iteration, code reviews, and proactive problem solving."
     }
   ];
 }
