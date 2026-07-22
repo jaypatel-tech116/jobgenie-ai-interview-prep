@@ -243,16 +243,58 @@ const MockInterview = () => {
     navigate("/dashboard");
   };
 
-  if (generating) {
+  // Render Loading Screen when generating questions or loading a session via query param
+  if (generating || (paramSessionId && (isSessionLoading || loading || (mode === "in_progress" && !currentQuestion)))) {
     return (
-      <main className="loading-screen">
-        <div className="loading-spinner"></div>
-        <h1>Configuring simulation questions...</h1>
-      </main>
+      <div className="mock-interview-page">
+        <header className="page-header" style={{ marginBottom: "30px", textAlign: "center" }}>
+          <h1>
+            Preparing Your <span className="highlight">Mock Simulation</span>
+          </h1>
+          <p style={{ color: "var(--text-secondary)", marginTop: "8px" }}>
+            {generating
+              ? "Genie AI is analyzing requirements & generating custom questions..."
+              : "Retrieving interview session details & history..."}
+          </p>
+        </header>
+
+        <div className="mock-loading-container">
+          <div className="mock-loading-orb-wrapper">
+            <div className="mock-loading-orb">
+              <span className="mock-loading-sparkle">✦</span>
+            </div>
+          </div>
+
+          <div className="mock-loading-skeletons">
+            <div className="mock-loading-header-skel">
+              <SkeletonBlock width="40%" height="16px" />
+              <SkeletonBlock width="80px" height="22px" borderRadius="var(--radius-sm)" />
+            </div>
+
+            <SkeletonBlock width="100%" height="8px" borderRadius="var(--radius-pill)" />
+
+            <div className="mock-loading-qbox-skel">
+              <SkeletonBlock width="30%" height="14px" />
+              <div style={{ marginTop: "12px" }}>
+                <SkeletonBlock width="90%" height="20px" />
+              </div>
+              <div style={{ marginTop: "8px" }}>
+                <SkeletonBlock width="65%" height="20px" />
+              </div>
+            </div>
+
+            <div className="mock-loading-input-skel">
+              <SkeletonBlock width="100%" height="110px" borderRadius="var(--radius-md)" />
+              <div className="mock-loading-actions-skel">
+                <SkeletonBlock width="46px" height="46px" borderRadius="50%" />
+                <SkeletonBlock width="140px" height="44px" borderRadius="var(--radius-md)" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
-
-
 
   // Render Setup view
   if (mode === "setup") {
@@ -570,59 +612,6 @@ const MockInterview = () => {
             )}
           </section>
         )}
-      </div>
-    );
-  }
-
-  // Render Loading Screen when generating questions or loading a session via query param
-  if (generating || (paramSessionId && (isSessionLoading || loading))) {
-    return (
-      <div className="mock-interview-page">
-        <header className="page-header" style={{ marginBottom: "30px", textAlign: "center" }}>
-          <h1>
-            Preparing Your <span className="highlight">Mock Simulation</span>
-          </h1>
-          <p style={{ color: "var(--text-secondary)", marginTop: "8px" }}>
-            {generating
-              ? "Genie AI is analyzing requirements & generating custom questions..."
-              : "Retrieving interview session details & history..."}
-          </p>
-        </header>
-
-        <div className="mock-loading-container">
-          <div className="mock-loading-orb-wrapper">
-            <div className="mock-loading-orb">
-              <span className="mock-loading-sparkle">✦</span>
-            </div>
-          </div>
-
-          <div className="mock-loading-skeletons">
-            <div className="mock-loading-header-skel">
-              <SkeletonBlock width="40%" height="16px" />
-              <SkeletonBlock width="80px" height="22px" borderRadius="var(--radius-sm)" />
-            </div>
-
-            <SkeletonBlock width="100%" height="8px" borderRadius="var(--radius-pill)" />
-
-            <div className="mock-loading-qbox-skel">
-              <SkeletonBlock width="30%" height="14px" />
-              <div style={{ marginTop: "12px" }}>
-                <SkeletonBlock width="90%" height="20px" />
-              </div>
-              <div style={{ marginTop: "8px" }}>
-                <SkeletonBlock width="65%" height="20px" />
-              </div>
-            </div>
-
-            <div className="mock-loading-input-skel">
-              <SkeletonBlock width="100%" height="110px" borderRadius="var(--radius-md)" />
-              <div className="mock-loading-actions-skel">
-                <SkeletonBlock width="46px" height="46px" borderRadius="50%" />
-                <SkeletonBlock width="140px" height="44px" borderRadius="var(--radius-md)" />
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     );
   }
