@@ -77,49 +77,57 @@ const MockInterview = () => {
 
   // Load session from query param if present
   useEffect(() => {
-    if (paramSessionId) {
-      setIsSessionLoading(true);
-      setMode("in_progress");
-      const loadSession = async () => {
-        try {
-          const session = await fetchSession(paramSessionId);
-          // Set sessionAnswersHistory by mapping answers to include question text
-          const history = session.answers.map((ans) => ({
-            question:
-              session.questions[ans.questionIndex]?.question || "Question",
-            userAnswer: ans.userAnswer,
-            score: ans.score,
-            feedback: ans.feedback,
-          }));
-          setSessionAnswersHistory(history);
+    let isMounted = true;
 
-          if (session.status === "completed") {
-            setMode("completed");
-          } else {
-            setMode("in_progress");
-          }
-        } catch (err) {
-          console.error(err);
-          toast.error("Failed to load session details.");
-          navigate("/mock-interview", { replace: true });
-          setTimeout(() => {
-            setMode("setup");
-          }, 0);
-        } finally {
-          setIsSessionLoading(false);
-        }
-      };
-      loadSession();
-    } else {
-      setIsSessionLoading(false);
-      // Clear states if no sessionId param
-      setTimeout(() => {
+    const loadSession = async () => {
+      if (!paramSessionId) {
+        setIsSessionLoading(false);
         setSessionId(null);
         setIsComplete(false);
         setSessionAnswersHistory([]);
         setMode("setup");
-      }, 0);
-    }
+        return;
+      }
+
+      setIsSessionLoading(true);
+      setMode("in_progress");
+
+      try {
+        const session = await fetchSession(paramSessionId);
+        if (!isMounted) return;
+
+        const history = session.answers.map((ans) => ({
+          question:
+            session.questions[ans.questionIndex]?.question || "Question",
+          userAnswer: ans.userAnswer,
+          score: ans.score,
+          feedback: ans.feedback,
+        }));
+        setSessionAnswersHistory(history);
+
+        if (session.status === "completed") {
+          setMode("completed");
+        } else {
+          setMode("in_progress");
+        }
+      } catch (err) {
+        if (!isMounted) return;
+        console.error(err);
+        toast.error("Failed to load session details.");
+        navigate("/mock-interview", { replace: true });
+        setMode("setup");
+      } finally {
+        if (isMounted) {
+          setIsSessionLoading(false);
+        }
+      }
+    };
+
+    loadSession();
+
+    return () => {
+      isMounted = false;
+    };
   }, [paramSessionId, fetchSession, setSessionId, setIsComplete, toast, navigate]);
 
   const handleStartSession = async () => {
