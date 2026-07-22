@@ -79,6 +79,7 @@ const MockInterview = () => {
   useEffect(() => {
     if (paramSessionId) {
       setIsSessionLoading(true);
+      setMode("in_progress");
       const loadSession = async () => {
         try {
           const session = await fetchSession(paramSessionId);
@@ -591,9 +592,11 @@ const MockInterview = () => {
                     <li
                       key={sess._id}
                       className="report-item"
-                      onClick={() =>
-                        navigate(`/mock-interview?sessionId=${sess._id}`)
-                      }
+                      onClick={() => {
+                        setIsSessionLoading(true);
+                        setMode("in_progress");
+                        navigate(`/mock-interview?sessionId=${sess._id}`);
+                      }}
                     >
                       <h3>{sess.title || "Untitled Position"}</h3>
                       <p className="report-meta">
