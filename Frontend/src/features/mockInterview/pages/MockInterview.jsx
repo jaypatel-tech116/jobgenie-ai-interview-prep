@@ -53,6 +53,7 @@ const MockInterview = () => {
   // Mode state: 'setup' -> 'in_progress' -> 'feedback_wait' -> 'completed'
   const [mode, setMode] = useState(paramSessionId ? "in_progress" : "setup");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSessionLoading, setIsSessionLoading] = useState(Boolean(paramSessionId));
 
   // Fetch recent mock sessions when in setup mode
   useEffect(() => {
@@ -77,6 +78,7 @@ const MockInterview = () => {
   // Load session from query param if present
   useEffect(() => {
     if (paramSessionId) {
+      setIsSessionLoading(true);
       const loadSession = async () => {
         try {
           const session = await fetchSession(paramSessionId);
@@ -98,13 +100,17 @@ const MockInterview = () => {
         } catch (err) {
           console.error(err);
           toast.error("Failed to load session details.");
+          navigate("/mock-interview", { replace: true });
           setTimeout(() => {
             setMode("setup");
           }, 0);
+        } finally {
+          setIsSessionLoading(false);
         }
       };
       loadSession();
     } else {
+      setIsSessionLoading(false);
       // Clear states if no sessionId param
       setTimeout(() => {
         setSessionId(null);
@@ -113,7 +119,7 @@ const MockInterview = () => {
         setMode("setup");
       }, 0);
     }
-  }, [paramSessionId, fetchSession, setSessionId, setIsComplete, toast]);
+  }, [paramSessionId, fetchSession, setSessionId, setIsComplete, toast, navigate]);
 
   const handleStartSession = async () => {
     const resumeFile = resumeInputRef.current?.files?.[0];
@@ -564,6 +570,59 @@ const MockInterview = () => {
             )}
           </section>
         )}
+      </div>
+    );
+  }
+
+  // Render Loading Screen when generating questions or loading a session via query param
+  if (generating || (paramSessionId && (isSessionLoading || loading))) {
+    return (
+      <div className="mock-interview-page">
+        <header className="page-header" style={{ marginBottom: "30px", textAlign: "center" }}>
+          <h1>
+            Preparing Your <span className="highlight">Mock Simulation</span>
+          </h1>
+          <p style={{ color: "var(--text-secondary)", marginTop: "8px" }}>
+            {generating
+              ? "Genie AI is analyzing requirements & generating custom questions..."
+              : "Retrieving interview session details & history..."}
+          </p>
+        </header>
+
+        <div className="mock-loading-container">
+          <div className="mock-loading-orb-wrapper">
+            <div className="mock-loading-orb">
+              <span className="mock-loading-sparkle">✦</span>
+            </div>
+          </div>
+
+          <div className="mock-loading-skeletons">
+            <div className="mock-loading-header-skel">
+              <SkeletonBlock width="40%" height="16px" />
+              <SkeletonBlock width="80px" height="22px" borderRadius="var(--radius-sm)" />
+            </div>
+
+            <SkeletonBlock width="100%" height="8px" borderRadius="var(--radius-pill)" />
+
+            <div className="mock-loading-qbox-skel">
+              <SkeletonBlock width="30%" height="14px" />
+              <div style={{ marginTop: "12px" }}>
+                <SkeletonBlock width="90%" height="20px" />
+              </div>
+              <div style={{ marginTop: "8px" }}>
+                <SkeletonBlock width="65%" height="20px" />
+              </div>
+            </div>
+
+            <div className="mock-loading-input-skel">
+              <SkeletonBlock width="100%" height="110px" borderRadius="var(--radius-md)" />
+              <div className="mock-loading-actions-skel">
+                <SkeletonBlock width="46px" height="46px" borderRadius="50%" />
+                <SkeletonBlock width="140px" height="44px" borderRadius="var(--radius-md)" />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

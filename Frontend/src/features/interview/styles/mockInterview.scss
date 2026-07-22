@@ -497,3 +497,102 @@
     opacity: 0.85;
   }
 }
+
+/* Loading Screen Styles */
+.mock-loading-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 36px 30px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  max-width: 800px;
+  margin: 0 auto;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.mock-loading-orb-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.mock-loading-orb {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(234, 179, 8, 0.2));
+  border: 2px solid var(--violet);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: var(--glow-violet);
+  animation: orbPulse 2s infinite ease-in-out;
+
+  .mock-loading-sparkle {
+    font-size: 2rem;
+    color: var(--gold-mid);
+    animation: spinSparkle 4s linear infinite;
+  }
+}
+
+@keyframes orbPulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 30px rgba(124, 58, 237, 0.7), 0 0 45px rgba(234, 179, 8, 0.4);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
+  }
+}
+
+@keyframes spinSparkle {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.mock-loading-skeletons {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mock-loading-header-skel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mock-loading-qbox-skel {
+  background: rgba(124, 58, 237, 0.05);
+  border-left: 4px solid var(--violet);
+  padding: 20px;
+  border-radius: var(--radius-md);
+}
+
+.mock-loading-input-skel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mock-loading-actions-skel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
