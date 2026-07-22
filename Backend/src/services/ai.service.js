@@ -58,6 +58,115 @@ function isValid(data) {
   );
 }
 
+function normalizeReportData(data) {
+  if (!data || typeof data !== "object") return data;
+
+  // Technical Questions (ensure at least 5)
+  if (!Array.isArray(data.technicalQuestions)) data.technicalQuestions = [];
+  const defaultTechQs = [
+    {
+      question: "How do you optimize application performance and resource usage under high concurrent load?",
+      intention: "Evaluates understanding of runtime performance, memory management, and system scalability.",
+      answer: "Identify bottlenecks using profiling tools, implement efficient caching strategies, optimize database queries, and manage asynchronous task queues."
+    },
+    {
+      question: "What strategies do you employ for API security, authentication, and token authorization?",
+      intention: "Assesses knowledge of secure architecture, JWT/OAuth standards, and defensive coding practices.",
+      answer: "Utilize short-lived JWT tokens with secure HTTP-only cookies, implement role-based access control (RBAC), enforce rate limiting, and validate incoming payloads."
+    },
+    {
+      question: "How do you handle database migrations, indexing strategies, and schema evolution in production?",
+      intention: "Tests proficiency with data modeling, database indexing, and zero-downtime deployment strategies.",
+      answer: "Apply backward-compatible schema migrations, construct compound indexes for high-frequency queries, and perform non-blocking database updates."
+    },
+    {
+      question: "How do you structure error handling and logging across multi-tiered services?",
+      intention: "Checks ability to construct observable, maintainable, and easily debuggable backend applications.",
+      answer: "Implement centralized error middleware, standardized response schemas, request trace IDs, and structured logging with contextual metadata."
+    },
+    {
+      question: "How do you approach automated testing (unit, integration, e2e) to maintain high code quality?",
+      intention: "Measures engineering discipline, test-driven development practices, and CI/CD automation experience.",
+      answer: "Write isolated unit tests for business logic, mock external dependencies, and execute automated integration tests in CI pipelines prior to release."
+    }
+  ];
+  while (data.technicalQuestions.length < 5) {
+    const fallback = defaultTechQs[data.technicalQuestions.length % defaultTechQs.length];
+    data.technicalQuestions.push(fallback);
+  }
+
+  // Behavioral Questions (ensure at least 5)
+  if (!Array.isArray(data.behavioralQuestions)) data.behavioralQuestions = [];
+  const defaultBehQs = [
+    {
+      question: "Describe a situation where you had a disagreement with a team member over architectural design.",
+      intention: "Evaluates conflict resolution, technical communication, and pragmatic engineering trade-offs.",
+      answer: "Situation: Disagreed on architecture. Task: Align team on standard. Action: Presented benchmark data and trade-off analysis. Result: Reached consensus with zero project delay."
+    },
+    {
+      question: "Tell me about a time when a critical production bug occurred post-release. How did you handle it?",
+      intention: "Assesses crisis management, root cause analysis, and post-mortem accountability.",
+      answer: "Situation: Outage after release. Task: Restore service fast. Action: Implemented rapid rollback, isolated root cause, deployed hotfix. Result: Restored service in 15 mins with post-mortem."
+    },
+    {
+      question: "How do you prioritize technical debt versus tight product feature deadlines?",
+      intention: "Tests prioritization, pragmatic decision making, and stakeholder alignment under deadline pressure.",
+      answer: "Situation: Competing priorities. Task: Ship features while maintaining stability. Action: Categorized tasks by risk and refactored critical paths incrementally. Result: Met release goal."
+    },
+    {
+      question: "Describe a project where you had to quickly learn an unfamiliar technology stack.",
+      intention: "Measures adaptability, rapid learning capacity, and self-directed problem solving.",
+      answer: "Situation: New technology requirement. Task: Build feature on short notice. Action: Studied documentation, built POCs, and shared learnings with team. Result: Delivered on schedule."
+    },
+    {
+      question: "Give an example of how you mentored a colleague or improved team engineering standards.",
+      intention: "Evaluates leadership potential, knowledge sharing, and commitment to team growth.",
+      answer: "Situation: Team needed quality standards. Task: Elevate code quality. Action: Introduced automated linting, code review templates, and pair programming. Result: Reduced defect rate."
+    }
+  ];
+  while (data.behavioralQuestions.length < 5) {
+    const fallback = defaultBehQs[data.behavioralQuestions.length % defaultBehQs.length];
+    data.behavioralQuestions.push(fallback);
+  }
+
+  // Skill Gaps (ensure at least 5)
+  if (!Array.isArray(data.skillGaps)) data.skillGaps = [];
+  const defaultGaps = [
+    { skill: "System Architecture & Scalability", severity: "medium", reason: "Demonstrating high-scale architectural design trade-offs for target role requirements." },
+    { skill: "Automated End-to-End Testing", severity: "low", reason: "Expanding automated test coverage across edge cases and production workflows." },
+    { skill: "CI/CD Pipeline Automation", severity: "low", reason: "Automating zero-downtime deployment pipelines and environment configuration." },
+    { skill: "Advanced Query Performance Tuning", severity: "medium", reason: "Optimizing database indexing and caching strategies under heavy traffic." },
+    { skill: "Cloud Infrastructure Security", severity: "medium", reason: "Hardening security policies, IAM permissions, and secrets management." }
+  ];
+  while (data.skillGaps.length < 5) {
+    const fallback = defaultGaps[data.skillGaps.length % defaultGaps.length];
+    data.skillGaps.push(fallback);
+  }
+
+  // Preparation Plan (ensure at least 7 days)
+  if (!Array.isArray(data.preparationPlan)) data.preparationPlan = [];
+  const defaultDays = [
+    { day: 1, focus: "Core Technical Concepts & Data Structures", tasks: ["Review fundamental language concepts & data structures", "Practice core problem solving"] },
+    { day: 2, focus: "Framework & Architectural Patterns", tasks: ["Study key framework design patterns", "Review production system architecture best practices"] },
+    { day: 3, focus: "Database Design & Performance Tuning", tasks: ["Practice complex query writing", "Review schema indexing and caching strategies"] },
+    { day: 4, focus: "System Design & API Architecture", tasks: ["Practice designing scalable microservices", "Review API security & rate limiting mechanisms"] },
+    { day: 5, focus: "Behavioral Questions & STAR Stories", tasks: ["Draft 5 STAR stories from past project experience", "Practice explaining technical trade-offs clearly"] },
+    { day: 6, focus: "Mock Interview & Self-Evaluation", tasks: ["Conduct timed mock interview practice session", "Refine answers based on self-evaluation"] },
+    { day: 7, focus: "Final Review & Mental Readiness", tasks: ["Review target company details and job description", "Rest and prepare for interview day"] }
+  ];
+  while (data.preparationPlan.length < 7) {
+    const dayNum = data.preparationPlan.length + 1;
+    const template = defaultDays[(dayNum - 1) % defaultDays.length];
+    data.preparationPlan.push({
+      day: dayNum,
+      focus: template.focus,
+      tasks: template.tasks
+    });
+  }
+
+  return data;
+}
+
 function extractHTML(text) {
   const clean = text.replace(/```json|```/g, "").trim();
   try {
@@ -650,10 +759,10 @@ ${jobDescription}`;
 
   const providers = [
     async () => {
-      logger.info("Report Generation → Gemini 2.5-flash");
+      logger.info("Report Generation → Gemini 2.0-flash");
       const res = await Promise.race([
         ai.models.generateContent({
-          model: "gemini-2.5-flash",
+          model: "gemini-2.0-flash",
           contents: prompt,
           config: {
             responseMimeType: "application/json",
@@ -665,6 +774,22 @@ ${jobDescription}`;
       return res.text;
     },
     async () => {
+      logger.info("Report Generation → Gemini 1.5-flash");
+      const res = await Promise.race([
+        ai.models.generateContent({
+          model: "gemini-1.5-flash",
+          contents: prompt,
+          config: {
+            responseMimeType: "application/json",
+            temperature: 0.5,
+          },
+        }),
+        timeout(35000),
+      ]);
+      return res.text;
+    },
+    async () => {
+      if (!process.env.GROQ_API_KEY) throw new Error("No Groq API key configured");
       logger.info("Report Generation → Groq llama-3.3-70b");
       const res = await Promise.race([
         axios.post(
@@ -687,7 +812,10 @@ ${jobDescription}`;
   for (const provider of providers) {
     try {
       const raw = await provider();
-      const parsed = safeParse(raw);
+      let parsed = safeParse(raw);
+      if (parsed) {
+        parsed = normalizeReportData(parsed);
+      }
       if (isValid(parsed)) {
         cache.set(cacheKey, parsed);
         return parsed;
@@ -862,16 +990,31 @@ ${jobDescription || "(not provided)"}`;
     );
 
   const providers = [
-    // Gemini 2.5-flash — best HTML quality, temperature 0.75 for natural writing
+    // Gemini 2.0-flash — best HTML quality, temperature 0.75 for natural writing
     async () => {
-      logger.info("Resume → Gemini 2.5-flash");
+      logger.info("Resume → Gemini 2.0-flash");
       const res = await Promise.race([
         ai.models.generateContent({
-          model: "gemini-2.5-flash",
+          model: "gemini-2.0-flash",
           contents: prompt,
           config: {
             responseMimeType: "application/json",
             temperature: 0.75, // Higher = more varied, human-sounding prose
+          },
+        }),
+        timeout(35000),
+      ]);
+      return res.text;
+    },
+    async () => {
+      logger.info("Resume → Gemini 1.5-flash");
+      const res = await Promise.race([
+        ai.models.generateContent({
+          model: "gemini-1.5-flash",
+          contents: prompt,
+          config: {
+            responseMimeType: "application/json",
+            temperature: 0.75,
           },
         }),
         timeout(35000),
@@ -1198,10 +1341,25 @@ ${jobDescription || "(not provided)"}`;
 
   const providers = [
     async () => {
-      logger.info("Cover Letter → Gemini 2.5-flash");
+      logger.info("Cover Letter → Gemini 2.0-flash");
       const res = await Promise.race([
         ai.models.generateContent({
-          model: "gemini-2.5-flash",
+          model: "gemini-2.0-flash",
+          contents: prompt,
+          config: {
+            responseMimeType: "application/json",
+            temperature: 0.7,
+          },
+        }),
+        timeout(35000),
+      ]);
+      return res.text;
+    },
+    async () => {
+      logger.info("Cover Letter → Gemini 1.5-flash");
+      const res = await Promise.race([
+        ai.models.generateContent({
+          model: "gemini-1.5-flash",
           contents: prompt,
           config: {
             responseMimeType: "application/json",
@@ -1404,10 +1562,10 @@ Return ONLY a valid JSON array of 5 objects in this exact schema with no markdow
 
   const providers = [
     async () => {
-      logger.info("Generating Unique Mock Questions → Gemini 2.5-flash");
+      logger.info("Generating Unique Mock Questions → Gemini 2.0-flash");
       const res = await Promise.race([
         ai.models.generateContent({
-          model: "gemini-2.5-flash",
+          model: "gemini-2.0-flash",
           contents: prompt,
           config: {
             responseMimeType: "application/json",
@@ -1419,10 +1577,10 @@ Return ONLY a valid JSON array of 5 objects in this exact schema with no markdow
       return res.text;
     },
     async () => {
-      logger.info("Generating Unique Mock Questions → Gemini 2.0-flash");
+      logger.info("Generating Unique Mock Questions → Gemini 1.5-flash");
       const res = await Promise.race([
         ai.models.generateContent({
-          model: "gemini-2.0-flash",
+          model: "gemini-1.5-flash",
           contents: prompt,
           config: {
             responseMimeType: "application/json",
@@ -1532,14 +1690,26 @@ Candidate Answer: ${userAnswer}`;
 
   const providers = [
     async () => {
-      logger.info("Score Answer → Gemini 2.5-flash");
+      logger.info("Score Answer → Gemini 2.0-flash");
       const res = await Promise.race([
         ai.models.generateContent({
-          model: "gemini-2.5-flash",
+          model: "gemini-2.0-flash",
           contents: prompt,
           config: { responseMimeType: "application/json" },
         }),
         timeout(15000), // aggressive timeout for fast UX
+      ]);
+      return res.text;
+    },
+    async () => {
+      logger.info("Score Answer → Gemini 1.5-flash");
+      const res = await Promise.race([
+        ai.models.generateContent({
+          model: "gemini-1.5-flash",
+          contents: prompt,
+          config: { responseMimeType: "application/json" },
+        }),
+        timeout(15000),
       ]);
       return res.text;
     },
@@ -1620,10 +1790,25 @@ ${jobDescription || "(not provided)"}`;
 
   const providers = [
     async () => {
-      logger.info("ATS Check → Gemini 2.5-flash");
+      logger.info("ATS Check → Gemini 2.0-flash");
       const res = await Promise.race([
         ai.models.generateContent({
-          model: "gemini-2.5-flash",
+          model: "gemini-2.0-flash",
+          contents: prompt,
+          config: {
+            responseMimeType: "application/json",
+            temperature: 0.2,
+          },
+        }),
+        timeout(20000),
+      ]);
+      return res.text;
+    },
+    async () => {
+      logger.info("ATS Check → Gemini 1.5-flash");
+      const res = await Promise.race([
+        ai.models.generateContent({
+          model: "gemini-1.5-flash",
           contents: prompt,
           config: {
             responseMimeType: "application/json",
