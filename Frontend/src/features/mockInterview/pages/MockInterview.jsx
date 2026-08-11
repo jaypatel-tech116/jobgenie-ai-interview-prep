@@ -75,10 +75,12 @@ const MockInterview = () => {
     }
   }, [transcript, isListening]);
 
-  // Scroll to top on mode or question change
+  // Scroll to top on mode, question change, generating, or session loading state
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [mode, questionNumber]);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [mode, questionNumber, generating, isSessionLoading]);
 
   // Load session from query param if present
   useEffect(() => {

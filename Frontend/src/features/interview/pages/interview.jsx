@@ -177,11 +177,23 @@ const Interview = () => {
     if (!interviewId) return;
 
     window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
     getReportById(interviewId).finally(() => {
       setIsInitialMount(false);
       window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
     });
   }, [interviewId, getReportById]);
+
+  useEffect(() => {
+    if (loading || isInitialMount) {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }
+  }, [loading, isInitialMount]);
 
   // Load history list for compare view
   useEffect(() => {
