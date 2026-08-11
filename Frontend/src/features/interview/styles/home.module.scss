@@ -1,7 +1,12 @@
 $bp-md: 768px;
 $bp-lg: 1100px;
 
-.page { overflow-x: hidden; }
+.page {
+  position: relative;
+  overflow-x: hidden;
+  width: 100%;
+  background: transparent;
+}
 
 .hero {
   position: relative;
@@ -10,7 +15,6 @@ $bp-lg: 1100px;
   align-items: center;
   justify-content: center;
   padding: 80px 24px;
-  overflow: hidden;
 
   @media (max-width: $bp-md) {
     min-height: 78vh;

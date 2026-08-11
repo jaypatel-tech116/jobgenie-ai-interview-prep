@@ -30,6 +30,34 @@
   --nav-height: 64px;
 }
 
+/* ── Global Website Theme Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 0px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 12, 26, 0.6);
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(212, 160, 23, 0.5) 0%, rgba(160, 112, 16, 0.5) 100%);
+  border-radius: 99px;
+  border: 1px solid rgba(212, 160, 23, 0.25);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: linear-gradient(180deg, #f5c842 0%, #d4a017 100%);
+    box-shadow: 0 0 10px rgba(245, 200, 66, 0.5);
+  }
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212, 160, 23, 0.5) rgba(15, 12, 26, 0.6);
+}
+
 *,
 *::before,
 *::after {
@@ -49,6 +77,41 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   min-height: 100vh;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: fixed;
+    top: -250px;
+    left: -200px;
+    width: 750px;
+    height: 750px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.12) 0%, rgba(15, 12, 26, 0) 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &::after {
+    content: "";
+    position: fixed;
+    bottom: -250px;
+    right: -200px;
+    width: 750px;
+    height: 750px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(217, 70, 239, 0.08) 0%, rgba(15, 12, 26, 0) 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+.app-shell {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 h1,

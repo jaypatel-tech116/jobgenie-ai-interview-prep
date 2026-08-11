@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../styles/interview.scss";
 import { useInterview } from "../hooks/useInterview.js";
 import { useParams } from "react-router";
+import { SkeletonBlock } from "../../../components/Skeleton/Skeleton";
 
 const NAV_ITEMS = [
   {
@@ -135,17 +136,95 @@ const SharedReport = () => {
   useEffect(() => {
     if (!shareToken) return;
 
+    window.scrollTo(0, 0);
     fetchSharedReport(shareToken).finally(() => {
       setIsInitialMount(false);
+      window.scrollTo(0, 0);
     });
   }, [shareToken, fetchSharedReport]);
 
   if (loading || isInitialMount) {
     return (
-      <main className="loading-screen">
-        <div className="loading-spinner"></div>
-        <h1>Loading shared interview plan...</h1>
-      </main>
+      <div className="interview-page">
+        <div className="report-header shared-report-header">
+          <SkeletonBlock width="160px" height="24px" borderRadius="100px" />
+          <div style={{ marginTop: "12px" }}>
+            <SkeletonBlock width="320px" height="32px" />
+          </div>
+        </div>
+
+        <div className="interview-layout">
+          <nav className="interview-nav">
+            <div className="nav-content">
+              <div style={{ marginBottom: "16px" }}>
+                <SkeletonBlock width="80px" height="16px" />
+              </div>
+              {[1, 2, 3].map((i) => (
+                <div key={i} style={{ marginBottom: "12px" }}>
+                  <SkeletonBlock
+                    width="100%"
+                    height="40px"
+                    borderRadius="var(--radius-md)"
+                  />
+                </div>
+              ))}
+            </div>
+          </nav>
+
+          <div className="interview-divider" />
+
+          <main className="interview-content">
+            <section>
+              <div
+                className="content-header"
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: "20px",
+                }}
+              >
+                <SkeletonBlock width="220px" height="28px" />
+                <SkeletonBlock width="80px" height="20px" borderRadius="10px" />
+              </div>
+              <div className="q-list">
+                {[1, 2, 3].map((i) => (
+                  <div
+                    key={i}
+                    className="q-card"
+                    style={{
+                      padding: "20px",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "10px",
+                    }}
+                  >
+                    <SkeletonBlock width="100%" height="20px" />
+                    <SkeletonBlock width="70%" height="16px" />
+                  </div>
+                ))}
+              </div>
+            </section>
+          </main>
+
+          <div className="interview-divider" />
+
+          <aside className="interview-sidebar">
+            <div
+              className="match-score"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "15px",
+              }}
+            >
+              <SkeletonBlock width="80px" height="14px" />
+              <SkeletonBlock width="120px" height="120px" borderRadius="50%" />
+            </div>
+          </aside>
+        </div>
+      </div>
     );
   }
 

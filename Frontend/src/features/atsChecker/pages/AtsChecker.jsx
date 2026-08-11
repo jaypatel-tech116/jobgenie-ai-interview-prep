@@ -33,6 +33,7 @@ const AtsChecker = () => {
   }, []);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     Promise.resolve().then(() => {
       loadHistory();
     });

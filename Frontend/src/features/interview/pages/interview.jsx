@@ -176,8 +176,10 @@ const Interview = () => {
   useEffect(() => {
     if (!interviewId) return;
 
+    window.scrollTo(0, 0);
     getReportById(interviewId).finally(() => {
       setIsInitialMount(false);
+      window.scrollTo(0, 0);
     });
   }, [interviewId, getReportById]);
 
@@ -361,9 +363,9 @@ const Interview = () => {
             <SkeletonBlock width="350px" height="32px" />
           </div>
 
-          <div className="interview-layout">
+          <div className="interview-layout interview-layout--loading">
             {/* Left Nav Skeleton */}
-            <nav className="interview-nav">
+            <nav className="interview-nav interview-nav--loading">
               <div className="nav-content">
                 <div style={{ marginBottom: "16px" }}>
                   <SkeletonBlock width="80px" height="16px" />
@@ -402,7 +404,7 @@ const Interview = () => {
             <div className="interview-divider" />
 
             {/* Center Content Skeleton */}
-            <main className="interview-content">
+            <main className="interview-content interview-content--loading">
               <section>
                 <div
                   className="content-header"
@@ -439,7 +441,7 @@ const Interview = () => {
             <div className="interview-divider" />
 
             {/* Right Sidebar Skeleton */}
-            <aside className="interview-sidebar">
+            <aside className="interview-sidebar interview-sidebar--loading">
               <div
                 className="match-score"
                 style={{
@@ -471,22 +473,6 @@ const Interview = () => {
                     />
                   ))}
                 </div>
-              </div>
-
-              <div className="sidebar-divider sidebar-actions-divider" />
-
-              <div
-                className="sidebar-actions"
-                style={{ display: "flex", flexDirection: "column", gap: "12px" }}
-              >
-                {[1, 2, 3, 4].map((i) => (
-                  <SkeletonBlock
-                    key={i}
-                    width="100%"
-                    height="42px"
-                    borderRadius="var(--radius-md)"
-                  />
-                ))}
               </div>
             </aside>
           </div>
@@ -975,8 +961,9 @@ const Interview = () => {
           )}
 
           <div className="sidebar-divider sidebar-actions-divider" />
-
-          {sidebarActionsMarkup}
+          <div className="sidebar-actions-mobile">
+            {sidebarActionsMarkup}
+          </div>
         </aside>
       </div>
     </div>

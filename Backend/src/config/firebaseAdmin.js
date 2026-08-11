@@ -16,6 +16,11 @@ try {
   ).toString("utf8");
 
   serviceAccount = JSON.parse(decoded);
+  if (serviceAccount && typeof serviceAccount.private_key === "string") {
+    serviceAccount.private_key = serviceAccount.private_key
+      .replace(/\\n/g, "\n")
+      .replace(/&/g, "+");
+  }
 } catch (error) {
   throw new Error(
     `Failed to decode Firebase service account credentials: ${error.message}`,

@@ -75,6 +75,11 @@ const MockInterview = () => {
     }
   }, [transcript, isListening]);
 
+  // Scroll to top on mode or question change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [mode, questionNumber]);
+
   // Load session from query param if present
   useEffect(() => {
     let isMounted = true;
@@ -623,6 +628,25 @@ const MockInterview = () => {
             )}
           </section>
         )}
+      </div>
+    );
+  }
+
+  if (isSessionLoading) {
+    return (
+      <div className="mock-interview-page">
+        <header className="page-header" style={{ marginBottom: "30px" }}>
+          <SkeletonBlock width="300px" height="36px" />
+        </header>
+
+        <div className="live-session-container" style={{ padding: "32px", display: "flex", flexDirection: "column", gap: "20px" }}>
+          <SkeletonBlock width="200px" height="20px" />
+          <SkeletonBlock width="100%" height="8px" borderRadius="4px" />
+          <div style={{ margin: "20px 0" }}>
+            <SkeletonBlock width="100%" height="60px" borderRadius="var(--radius-lg)" />
+          </div>
+          <SkeletonBlock width="100%" height="120px" borderRadius="var(--radius-lg)" />
+        </div>
       </div>
     );
   }

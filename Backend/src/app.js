@@ -23,14 +23,27 @@ app.use(compression());
 app.use(express.json());
 app.use(cookieParser());
 
-const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173")
+const rawClientUrls = process.env.CLIENT_URL || "http://localhost:5173,http://localhost:3000,https://jobgenie-ai-interview-prep.vercel.app";
+const allowedOrigins = rawClientUrls
   .split(",")
-  .map((o) => o.trim());
+  .map((o) => o.trim())
+  .filter(Boolean);
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+      // Allow non-browser or same-origin requests
+      if (!origin) return callback(null, true);
+
+      const isAllowed =
+        allowedOrigins.includes(origin) ||
+        origin.endsWith(".vercel.app") ||
+        process.env.NODE_ENV !== "production";
+
+      if (isAllowed) {
+        return callback(null, true);
+      }
+      logger.warn(`CORS blocked request from origin: ${origin}`);
       callback(new Error("Not allowed by CORS"));
     },
     credentials: true,

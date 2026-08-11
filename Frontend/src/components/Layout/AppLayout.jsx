@@ -14,32 +14,30 @@ const AppLayout = () => {
   useEffect(() => {
     const handleScroll = () => {
       try {
-        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+        document.documentElement.style.scrollBehavior = "auto";
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        document.documentElement.style.scrollBehavior = "";
       } catch {
         window.scrollTo(0, 0);
       }
-      try {
-        document.documentElement.scrollTo({ top: 0, left: 0, behavior: "instant" });
-      } catch {
-        document.documentElement.scrollTo(0, 0);
-      }
-      try {
-        document.body.scrollTo({ top: 0, left: 0, behavior: "instant" });
-      } catch {
-        document.body.scrollTo(0, 0);
-      }
     };
 
-    // Run instantly
+    // Immediate scroll execution
     handleScroll();
 
-    // Fallbacks to bypass React concurrent render DOM lag
+    // Staggered fallbacks to ensure scroll position is reset even after dynamic updates
     const animId = requestAnimationFrame(handleScroll);
-    const timeoutId = setTimeout(handleScroll, 50);
+    const t1 = setTimeout(handleScroll, 10);
+    const t2 = setTimeout(handleScroll, 50);
+    const t3 = setTimeout(handleScroll, 150);
 
     return () => {
       cancelAnimationFrame(animId);
-      clearTimeout(timeoutId);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
     };
   }, [location.pathname, location.search]);
 
@@ -67,7 +65,7 @@ const AppLayout = () => {
   }, [showVerifyBanner]);
 
   return (
-    <>
+    <div className="app-shell">
       {showVerifyBanner && (
         <div
           ref={bannerRef}
@@ -107,12 +105,12 @@ const AppLayout = () => {
         </div>
       )}
       <Navbar />
-      <main>
+      <main style={{ flex: 1 }}>
         <Outlet />
       </main>
       <Footer />
       <ScrollToTop />
-    </>
+    </div>
   );
 };
 

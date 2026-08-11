@@ -16,9 +16,12 @@ export const AuthProvider = ({ children }) => {
     hasFetched.current = true;
 
     const fetchUser = async () => {
+      const token = localStorage.getItem("jg_token");
       const loggedInStatus = localStorage.getItem("jg_logged_in");
       
-      if (loggedInStatus === "false") {
+      // Fast path: if no token exists or loggedInStatus is explicitly false, skip network call
+      if (!token || loggedInStatus === "false") {
+        setUser(null);
         setAuthChecked(true);
         return;
       }
@@ -28,12 +31,13 @@ export const AuthProvider = ({ children }) => {
         setUser(data?.user || null);
         localStorage.setItem("jg_logged_in", "true");
       } catch (error) {
-        if (error.response?.status === 401) {
+        if (error.response?.status === 401 || error.response?.status === 403) {
           setUser(null);
           localStorage.setItem("jg_logged_in", "false");
           localStorage.removeItem("jg_token");
         } else {
           console.error(error);
+          setUser(null);
         }
       } finally {
         setAuthChecked(true);

@@ -1,7 +1,12 @@
 import axios from "axios";
 
+let envUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
+// Strip trailing /api or /api/ if user provided it in VITE_API_URL, since all service endpoints include /api/...
+envUrl = envUrl.replace(/\/api\/?$/, "").replace(/\/+$/, "");
+
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: envUrl,
   withCredentials: true,
 });
 

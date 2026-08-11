@@ -19,10 +19,12 @@ const Recent = () => {
   const toast = useToast();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     getReports();
   }, [getReports]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (activeTab === "mocks") {
       const loadMocks = async () => {
         try {
