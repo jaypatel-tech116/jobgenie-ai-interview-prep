@@ -759,10 +759,10 @@ ${jobDescription}`;
 
   const providers = [
     async () => {
-      logger.info("Report Generation → Gemini 1.5-flash-latest");
+      logger.info("Report Generation → Gemini Flash Latest");
       const res = await Promise.race([
         ai.models.generateContent({
-          model: "gemini-1.5-flash-latest",
+          model: "gemini-flash-latest",
           contents: prompt,
           config: {
             responseMimeType: "application/json",
@@ -774,10 +774,10 @@ ${jobDescription}`;
       return res.text;
     },
     async () => {
-      logger.info("Report Generation → Gemini 1.5-pro-latest");
+      logger.info("Report Generation → Gemini Flash Lite Latest");
       const res = await Promise.race([
         ai.models.generateContent({
-          model: "gemini-1.5-pro-latest",
+          model: "gemini-flash-lite-latest",
           contents: prompt,
           config: {
             responseMimeType: "application/json",
@@ -990,12 +990,12 @@ ${jobDescription || "(not provided)"}`;
     );
 
   const providers = [
-    // Gemini 1.5-flash-latest — best HTML quality, temperature 0.75 for natural writing
+    // Gemini Flash Latest — best HTML quality, temperature 0.75 for natural writing
     async () => {
-      logger.info("Resume → Gemini 1.5-flash-latest");
+      logger.info("Resume → Gemini Flash Latest");
       const res = await Promise.race([
         ai.models.generateContent({
-          model: "gemini-1.5-flash-latest",
+          model: "gemini-flash-latest",
           contents: prompt,
           config: {
             responseMimeType: "application/json",
@@ -1007,10 +1007,10 @@ ${jobDescription || "(not provided)"}`;
       return res.text;
     },
     async () => {
-      logger.info("Resume → Gemini 1.5-pro-latest");
+      logger.info("Resume → Gemini Flash Lite Latest");
       const res = await Promise.race([
         ai.models.generateContent({
-          model: "gemini-1.5-pro-latest",
+          model: "gemini-flash-lite-latest",
           contents: prompt,
           config: {
             responseMimeType: "application/json",
@@ -1341,10 +1341,10 @@ ${jobDescription || "(not provided)"}`;
 
   const providers = [
     async () => {
-      logger.info("Cover Letter → Gemini 1.5-flash-latest");
+      logger.info("Cover Letter → Gemini Flash Latest");
       const res = await Promise.race([
         ai.models.generateContent({
-          model: "gemini-1.5-flash-latest",
+          model: "gemini-flash-latest",
           contents: prompt,
           config: {
             responseMimeType: "application/json",
@@ -1356,10 +1356,10 @@ ${jobDescription || "(not provided)"}`;
       return res.text;
     },
     async () => {
-      logger.info("Cover Letter → Gemini 1.5-pro-latest");
+      logger.info("Cover Letter → Gemini Flash Lite Latest");
       const res = await Promise.race([
         ai.models.generateContent({
-          model: "gemini-1.5-pro-latest",
+          model: "gemini-flash-lite-latest",
           contents: prompt,
           config: {
             responseMimeType: "application/json",
@@ -1562,10 +1562,10 @@ Return ONLY a valid JSON array of 5 objects in this exact schema with no markdow
 
   const providers = [
     async () => {
-      logger.info("Generating Unique Mock Questions → Gemini 1.5-flash-latest");
+      logger.info("Generating Unique Mock Questions → Gemini Flash Latest");
       const res = await Promise.race([
         ai.models.generateContent({
-          model: "gemini-1.5-flash-latest",
+          model: "gemini-flash-latest",
           contents: prompt,
           config: {
             responseMimeType: "application/json",
@@ -1577,10 +1577,10 @@ Return ONLY a valid JSON array of 5 objects in this exact schema with no markdow
       return res.text;
     },
     async () => {
-      logger.info("Generating Unique Mock Questions → Gemini 1.5-pro-latest");
+      logger.info("Generating Unique Mock Questions → Gemini Flash Lite Latest");
       const res = await Promise.race([
         ai.models.generateContent({
-          model: "gemini-1.5-pro-latest",
+          model: "gemini-flash-lite-latest",
           contents: prompt,
           config: {
             responseMimeType: "application/json",
@@ -1690,10 +1690,10 @@ Candidate Answer: ${userAnswer}`;
 
   const providers = [
     async () => {
-      logger.info("Score Answer → Gemini 1.5-flash-latest");
+      logger.info("Score Answer → Gemini Flash Latest");
       const res = await Promise.race([
         ai.models.generateContent({
-          model: "gemini-1.5-flash-latest",
+          model: "gemini-flash-latest",
           contents: prompt,
           config: { responseMimeType: "application/json" },
         }),
@@ -1702,10 +1702,10 @@ Candidate Answer: ${userAnswer}`;
       return res.text;
     },
     async () => {
-      logger.info("Score Answer → Gemini 1.5-pro-latest");
+      logger.info("Score Answer → Gemini Flash Lite Latest");
       const res = await Promise.race([
         ai.models.generateContent({
-          model: "gemini-1.5-pro-latest",
+          model: "gemini-flash-lite-latest",
           contents: prompt,
           config: { responseMimeType: "application/json" },
         }),
@@ -1790,10 +1790,10 @@ ${jobDescription || "(not provided)"}`;
 
   const providers = [
     async () => {
-      logger.info("ATS Check → Gemini 1.5-flash-latest");
+      logger.info("ATS Check → Gemini Flash Latest");
       const res = await Promise.race([
         ai.models.generateContent({
-          model: "gemini-1.5-flash-latest",
+          model: "gemini-flash-latest",
           contents: prompt,
           config: {
             responseMimeType: "application/json",
@@ -1805,10 +1805,10 @@ ${jobDescription || "(not provided)"}`;
       return res.text;
     },
     async () => {
-      logger.info("ATS Check → Gemini 1.5-pro-latest");
+      logger.info("ATS Check → Gemini Flash Lite Latest");
       const res = await Promise.race([
         ai.models.generateContent({
-          model: "gemini-1.5-pro-latest",
+          model: "gemini-flash-lite-latest",
           contents: prompt,
           config: {
             responseMimeType: "application/json",
