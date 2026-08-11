@@ -11,6 +11,7 @@ const Analyze = () => {
   const [selfDescription, setSelfDescription] = useState("");
   const [difficulty, setDifficulty] = useState("mid");
   const [uploadedFileName, setUploadedFileName] = useState("");
+  const [selectedResumeFile, setSelectedResumeFile] = useState(null);
   const [generating, setGenerating] = useState(false);
   const resumeInputRef = useRef();
   const toast = useToast();
@@ -21,7 +22,7 @@ const Analyze = () => {
   }, [getReports]);
 
   const handleGenerateReport = async () => {
-    const resumeFile = resumeInputRef.current.files[0];
+    const resumeFile = selectedResumeFile || resumeInputRef.current?.files?.[0];
 
     if (!jobDescription) {
       toast.warning("Job description is required.");
@@ -222,13 +223,19 @@ const Analyze = () => {
                   accept=".pdf,.docx"
                   onChange={(e) => {
                     const file = e.target.files?.[0];
-                    if (!file) return;
-                    if (file.size > 5 * 1024 * 1024) {
-                      toast.warning("File exceeds 5MB limit. Please use a smaller file.");
-                      e.target.value = "";
+                    if (!file) {
+                      setSelectedResumeFile(null);
                       setUploadedFileName("");
                       return;
                     }
+                    if (file.size > 5 * 1024 * 1024) {
+                      toast.warning("File exceeds 5MB limit. Please use a smaller file.");
+                      e.target.value = "";
+                      setSelectedResumeFile(null);
+                      setUploadedFileName("");
+                      return;
+                    }
+                    setSelectedResumeFile(file);
                     setUploadedFileName(file.name);
                     toast.info("Resume uploaded — ready to analyze!");
                   }}

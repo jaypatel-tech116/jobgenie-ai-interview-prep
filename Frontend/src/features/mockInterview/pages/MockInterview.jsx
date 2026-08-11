@@ -54,6 +54,7 @@ const MockInterview = () => {
   const [mode, setMode] = useState(paramSessionId ? "in_progress" : "setup");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSessionLoading, setIsSessionLoading] = useState(Boolean(paramSessionId));
+  const [selectedResumeFile, setSelectedResumeFile] = useState(null);
 
   // Fetch recent mock sessions when in setup mode
   useEffect(() => {
@@ -138,7 +139,7 @@ const MockInterview = () => {
   }, [paramSessionId, fetchSession, setSessionId, setIsComplete, toast, navigate]);
 
   const handleStartSession = async () => {
-    const resumeFile = resumeInputRef.current?.files?.[0];
+    const resumeFile = selectedResumeFile || resumeInputRef.current?.files?.[0];
 
     if (!jobDescription) {
       toast.warning("Job description is required.");
@@ -178,6 +179,11 @@ const MockInterview = () => {
       });
       setSessionAnswersHistory([]);
       setTypedAnswer("");
+      setSelectedResumeFile(null);
+      setUploadedFileName("");
+      if (resumeInputRef.current) {
+        resumeInputRef.current.value = "";
+      }
       navigate(`/mock-interview?sessionId=${data.sessionId}`, {
         replace: true,
       });
@@ -448,13 +454,19 @@ const MockInterview = () => {
                     accept=".pdf,.docx"
                     onChange={(e) => {
                       const file = e.target.files?.[0];
-                      if (!file) return;
-                      if (file.size > 5 * 1024 * 1024) {
-                        toast.warning("File exceeds 5MB limit.");
-                        e.target.value = "";
+                      if (!file) {
+                        setSelectedResumeFile(null);
                         setUploadedFileName("");
                         return;
                       }
+                      if (file.size > 5 * 1024 * 1024) {
+                        toast.warning("File exceeds 5MB limit.");
+                        e.target.value = "";
+                        setSelectedResumeFile(null);
+                        setUploadedFileName("");
+                        return;
+                      }
+                      setSelectedResumeFile(file);
                       setUploadedFileName(file.name);
                     }}
                   />
