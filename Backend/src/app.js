@@ -61,7 +61,16 @@ const generalLimiter = rateLimit({
   },
 });
 
-// ================= HEALTH =================
+// ================= HEALTH & ROOT =================
+app.get("/", (_req, res) => {
+  res.json({
+    success: true,
+    message: "🚀 JobGenie AI Backend API Server is running!",
+    version: "1.0.0",
+    health: "/api/health",
+  });
+});
+
 app.get("/api/health", (_req, res) => {
   res.json({
     status: "ok",
