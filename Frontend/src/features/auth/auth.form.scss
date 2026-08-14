@@ -72,9 +72,7 @@ $bp-md: 768px;
   border-top: 3px solid var(--gold-mid);
   border-radius: var(--radius-lg);
   padding: 44px 38px 38px;
-  box-shadow:
-    0 0 40px rgba(124, 58, 237, 0.15),
-    0 24px 64px rgba(0, 0, 0, 0.45);
+  box-shadow: var(--card-shadow);
   animation: fadeInUp 0.45s ease forwards;
 
   @media (max-width: 480px) {
@@ -137,8 +135,8 @@ $bp-md: 768px;
   margin-bottom: 18px;
 
   &:hover {
-    border-color: rgba(255, 255, 255, 0.18);
-    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--border-dashed);
+    background: var(--bg-surface-hover);
     transform: translateY(-1px);
   }
 
@@ -240,7 +238,7 @@ $bp-md: 768px;
   flex: 1;
   height: 3px;
   border-radius: 2px;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--bg-surface-hover);
   transition: background 0.3s ease;
 }
 
@@ -254,7 +252,7 @@ $bp-md: 768px;
 .submitBtn {
   width: 100%;
   background: var(--gold-gradient);
-  color: var(--bg-base);
+  color: var(--text-on-gold);
   border: none;
   border-radius: var(--radius-md);
   font-family: var(--font-body), "DM Sans", sans-serif;
@@ -293,7 +291,7 @@ $bp-md: 768px;
   width: 16px;
   height: 16px;
   border: 2px solid rgba(0, 0, 0, 0.25);
-  border-top-color: #0b0914;
+  border-top-color: var(--text-on-gold);
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
   flex-shrink: 0;

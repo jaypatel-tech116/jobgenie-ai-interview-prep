@@ -1,6 +1,6 @@
 .skeletonBlock {
-  background: rgba(30, 24, 51, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
   position: relative;
   overflow: hidden;
 

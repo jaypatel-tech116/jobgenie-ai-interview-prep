@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router";
+import { Sun, Moon } from "lucide-react";
 import styles from "./Navbar.module.scss";
 import { useAuth } from "../../features/auth/hooks/useAuth";
 
@@ -13,6 +14,23 @@ const Navbar = () => {
   const mobileRef = useRef(null);
   const burgerRef = useRef(null);
   const lockedScrollYRef = useRef(0);
+
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem("jobgenie_theme");
+    if (saved === "light" || saved === "dark") return saved;
+    return window.matchMedia("(prefers-color-scheme: light)").matches
+      ? "light"
+      : "dark";
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("jobgenie_theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
 
   useEffect(() => {
     Promise.resolve().then(() => {
@@ -115,7 +133,7 @@ const Navbar = () => {
       <div className={styles.inner}>
         {/* Logo */}
         <NavLink to="/" className={styles.logo} onClick={handleNavClick}>
-          <img src="/images/MainLogo.png" alt="JobGenie" height={34} />
+          <img src="/images/MainLogo.png" alt="JobGenie" />
         </NavLink>
 
         {/* Desktop links */}
@@ -138,6 +156,16 @@ const Navbar = () => {
 
         {/* Desktop auth */}
         <div className={styles.auth}>
+          <button
+            type="button"
+            className={styles.themeToggle}
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+            title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+          >
+            {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
+          </button>
+
           {user ? (
             <div className={styles.avatarWrap} ref={dropRef}>
               <button
@@ -264,14 +292,24 @@ const Navbar = () => {
               className={styles.mobileLogo}
               onClick={handleNavClick}
             >
-              <img src="/images/MainLogo.png" alt="JobGenie" height={32} />
+              <img src="/images/MainLogo.png" alt="JobGenie" />
             </NavLink>
-            <button
-              type="button"
-              className={styles.mobileClose}
-              onClick={() => setMobileOpen(false)}
-              aria-label="Close menu"
-            >
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <button
+                type="button"
+                className={styles.themeToggle}
+                onClick={toggleTheme}
+                aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+                title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+              >
+                {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
+              </button>
+              <button
+                type="button"
+                className={styles.mobileClose}
+                onClick={() => setMobileOpen(false)}
+                aria-label="Close menu"
+              >
               <svg
                 width="16"
                 height="16"
@@ -285,7 +323,8 @@ const Navbar = () => {
                 <path d="M18 6 6 18" />
                 <path d="M6 6l12 12" />
               </svg>
-            </button>
+              </button>
+            </div>
           </div>
 
           {/* Nav links */}

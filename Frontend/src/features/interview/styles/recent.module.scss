@@ -198,7 +198,7 @@ $bp-md: 768px;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--bg-surface-hover);
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
   gap: 12px;
@@ -249,7 +249,7 @@ $bp-md: 768px;
 }
 
 .statBox {
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--bg-surface-hover);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   padding: 12px;
@@ -293,7 +293,7 @@ $bp-md: 768px;
 
   &:hover {
     color: var(--text-primary);
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-surface-hover);
   }
 }
 
@@ -369,7 +369,7 @@ $bp-md: 768px;
 
   &:hover:not(:disabled) {
     background: var(--gold-gradient);
-    color: #0f0c1a;
+    color: var(--text-on-gold);
   }
 
   &:disabled {
@@ -417,7 +417,7 @@ $bp-md: 768px;
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--bg-surface-hover);
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
   gap: 16px;

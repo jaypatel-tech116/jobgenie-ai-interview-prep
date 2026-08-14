@@ -29,6 +29,7 @@ $bp-lg: 1100px;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
+  box-shadow: var(--card-shadow);
   overflow: hidden;
   display: flex;
   justify-content: space-between;
@@ -78,7 +79,37 @@ $bp-lg: 1100px;
 
   @media (min-width: 1101px) {
     height: 100%;
+    overflow-y: auto;
     align-self: stretch;
+    border-top-left-radius: var(--radius-xl);
+    border-bottom-left-radius: var(--radius-xl);
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold-mid) transparent;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    &::-webkit-scrollbar-button {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+      margin-top: 14px;
+      margin-bottom: 14px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--gold-mid);
+      border-radius: 99px;
+
+      &:hover {
+        background: var(--gold-light);
+      }
+    }
   }
 
   @media (max-width: $bp-lg) {
@@ -145,7 +176,7 @@ $bp-lg: 1100px;
     color var(--transition), transform var(--transition);
 
   &:hover {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-surface-hover);
     border-color: rgba(212, 160, 23, 0.25);
     color: var(--text-primary);
     transform: translateY(-1px);
@@ -176,7 +207,7 @@ $bp-lg: 1100px;
   justify-content: center;
   gap: 8px;
   background: var(--gold-gradient);
-  color: #0f0c1a;
+  color: var(--text-on-gold);
   font-family: var(--font-body);
   font-weight: 800;
   font-size: 0.92rem;
@@ -225,7 +256,7 @@ $bp-lg: 1100px;
   position: sticky;
   top: -20px;
   z-index: 30;
-  background: rgba(18, 11, 36, 0.96);
+  background: var(--bg-header-blur);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   display: flex;
@@ -235,7 +266,7 @@ $bp-lg: 1100px;
   padding: 16px 20px;
   margin: -20px -20px 20px -20px;
   border-bottom: 1px solid var(--border);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--card-shadow);
 
   h2 {
     font-family: var(--font-display);
@@ -267,7 +298,7 @@ $bp-lg: 1100px;
 
 .q-card {
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--bg-surface-hover);
   border-radius: var(--radius-lg);
   overflow: hidden;
 }
@@ -361,7 +392,7 @@ $bp-lg: 1100px;
 .roadmap-day {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--bg-surface-hover);
   padding: 12px 12px;
 
   &__header {
@@ -419,16 +450,53 @@ $bp-lg: 1100px;
 .interview-sidebar {
   width: 270px;
   flex-shrink: 0;
-  padding: 16px 14px;
+  padding: 16px 16px 28px 14px;
   display: flex;
   flex-direction: column;
   gap: 12px;
   border-left: 1px solid var(--border);
+  box-sizing: border-box;
 
   @media (min-width: 1101px) {
-    height: auto;
-    overflow: visible;
+    height: 100%;
+    max-height: 100%;
+    overflow-y: auto;
     align-self: stretch;
+    border-top-right-radius: var(--radius-xl);
+    border-bottom-right-radius: var(--radius-xl);
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold-mid) transparent;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    &::-webkit-scrollbar-button,
+    &::-webkit-scrollbar-button:single-button,
+    &::-webkit-scrollbar-button:vertical:decrement,
+    &::-webkit-scrollbar-button:vertical:increment,
+    &::-webkit-scrollbar-button:start:decrement,
+    &::-webkit-scrollbar-button:end:increment {
+      display: none !important;
+      width: 0px !important;
+      height: 0px !important;
+      background: transparent !important;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+      margin-top: 16px;
+      margin-bottom: 16px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--gold-mid);
+      border-radius: 99px;
+
+      &:hover {
+        background: var(--gold-light);
+      }
+    }
   }
 
   @media (max-width: $bp-lg) {
@@ -633,7 +701,7 @@ $bp-lg: 1100px;
 }
 
 .rename-btn {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--bg-surface-hover);
   border: 1px solid var(--border);
   color: var(--gold-light);
   cursor: pointer;
@@ -705,7 +773,7 @@ $bp-lg: 1100px;
   height: 40px;
   padding: 0 20px;
   background: var(--gold-gradient);
-  color: #0f0c1a;
+  color: var(--text-on-gold);
   border: none;
   font-family: var(--font-body);
   font-weight: 700;
@@ -748,7 +816,7 @@ $bp-lg: 1100px;
   transition: all var(--transition);
 
   &:hover {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-surface-hover);
     border-color: var(--text-muted);
     color: var(--text-primary);
     transform: translateY(-1px);
@@ -813,7 +881,7 @@ $bp-lg: 1100px;
 
   &--primary {
     background: var(--gold-gradient);
-    color: #0f0c1a;
+    color: var(--text-on-gold);
     border: none;
     box-shadow: var(--glow-gold);
 
@@ -842,7 +910,7 @@ $bp-lg: 1100px;
     border: 1px solid var(--border);
 
     &:hover:not(:disabled) {
-      background: rgba(255, 255, 255, 0.03);
+      background: var(--bg-surface-hover);
       border-color: var(--text-muted);
       color: var(--text-primary);
       transform: translateY(-2px);

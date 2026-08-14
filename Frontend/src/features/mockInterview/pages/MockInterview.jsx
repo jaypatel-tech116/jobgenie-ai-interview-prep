@@ -265,52 +265,54 @@ const MockInterview = () => {
     navigate("/dashboard");
   };
 
-  // Render Loading Screen when generating questions or loading a session via query param
-  if (generating || (paramSessionId && (isSessionLoading || loading || (mode === "in_progress" && !currentQuestion)))) {
+  // Render Loading Screen ONLY during initial page/data load (generating or initial session fetch)
+  const isInitialLoading =
+    generating ||
+    (Boolean(paramSessionId) && isSessionLoading) ||
+    (Boolean(paramSessionId) && mode === "in_progress" && !currentQuestion && !isSubmitting);
+
+  if (isInitialLoading) {
     return (
       <div className="mock-interview-page">
-        <header className="page-header" style={{ marginBottom: "30px", textAlign: "center" }}>
-          <h1>
-            Preparing Your <span className="highlight">Mock Simulation</span>
+        <header className="page-header" style={{ marginBottom: "32px", textAlign: "center", paddingTop: "10px" }}>
+          <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)", color: "var(--text-primary)" }}>
+            Simulation <span className="gold-text">In Progress</span>
           </h1>
-          <p style={{ color: "var(--text-secondary)", marginTop: "8px" }}>
+          <p style={{ color: "var(--text-secondary)", marginTop: "8px", fontSize: "0.9rem" }}>
             {generating
               ? "Genie AI is analyzing requirements & generating custom questions..."
               : "Retrieving interview session details & history..."}
           </p>
         </header>
 
-        <div className="mock-loading-container">
-          <div className="mock-loading-orb-wrapper">
-            <div className="mock-loading-orb">
-              <span className="mock-loading-sparkle">✦</span>
+        <div className="live-session-container">
+          <div className="progress-header">
+            <SkeletonBlock width="130px" height="18px" borderRadius="var(--radius-sm)" />
+            <SkeletonBlock width="54px" height="26px" borderRadius="var(--radius-pill)" />
+          </div>
+
+          <div className="progress-bar-container">
+            <SkeletonBlock width="100%" height="7px" borderRadius="var(--radius-pill)" />
+          </div>
+
+          <div className="question-box">
+            <h3 style={{ margin: 0, marginBottom: "10px" }}>Interviewer Question</h3>
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <SkeletonBlock width="96%" height="18px" borderRadius="var(--radius-sm)" />
+              <SkeletonBlock width="84%" height="18px" borderRadius="var(--radius-sm)" />
+              <SkeletonBlock width="58%" height="18px" borderRadius="var(--radius-sm)" />
             </div>
           </div>
 
-          <div className="mock-loading-skeletons">
-            <div className="mock-loading-header-skel">
-              <SkeletonBlock width="40%" height="16px" />
-              <SkeletonBlock width="80px" height="22px" borderRadius="var(--radius-sm)" />
-            </div>
+          <div className="response-box">
+            <SkeletonBlock width="100%" height="180px" borderRadius="var(--radius-md)" />
 
-            <SkeletonBlock width="100%" height="8px" borderRadius="var(--radius-pill)" />
-
-            <div className="mock-loading-qbox-skel">
-              <SkeletonBlock width="30%" height="14px" />
-              <div style={{ marginTop: "12px" }}>
-                <SkeletonBlock width="90%" height="20px" />
-              </div>
-              <div style={{ marginTop: "8px" }}>
-                <SkeletonBlock width="65%" height="20px" />
-              </div>
-            </div>
-
-            <div className="mock-loading-input-skel">
-              <SkeletonBlock width="100%" height="110px" borderRadius="var(--radius-md)" />
-              <div className="mock-loading-actions-skel">
+            <div className="controls-row" style={{ marginTop: "20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                 <SkeletonBlock width="46px" height="46px" borderRadius="50%" />
-                <SkeletonBlock width="140px" height="44px" borderRadius="var(--radius-md)" />
+                <SkeletonBlock width="180px" height="16px" borderRadius="var(--radius-sm)" />
               </div>
+              <SkeletonBlock width="150px" height="44px" borderRadius="var(--radius-md)" />
             </div>
           </div>
         </div>
@@ -671,9 +673,9 @@ const MockInterview = () => {
 
     return (
       <div className="mock-interview-page">
-        <header className="page-header" style={{ marginBottom: "30px" }}>
-          <h1>
-            Simulation <span className="highlight">In Progress</span>
+        <header className="page-header" style={{ marginBottom: "32px", textAlign: "center", paddingTop: "10px" }}>
+          <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)", color: "var(--text-primary)" }}>
+            Simulation <span className="gold-text">In Progress</span>
           </h1>
         </header>
 
@@ -760,8 +762,10 @@ const MockInterview = () => {
                   disabled={isSubmitting || !typedAnswer.trim()}
                   type="button"
                   style={{
-                    padding: "10px 22px",
+                    padding: "10px 24px",
                     borderRadius: "var(--radius-md)",
+                    minWidth: "160px",
+                    justifyContent: "center",
                   }}
                 >
                   {isSubmitting ? (
@@ -769,7 +773,7 @@ const MockInterview = () => {
                       style={{
                         display: "flex",
                         alignItems: "center",
-                        gap: "6px",
+                        gap: "8px",
                       }}
                     >
                       <span
@@ -780,7 +784,7 @@ const MockInterview = () => {
                           borderTopColor: "#fff",
                         }}
                       />
-                      Evaluating...
+                      Checking...
                     </div>
                   ) : (
                     "Submit Answer ➔"

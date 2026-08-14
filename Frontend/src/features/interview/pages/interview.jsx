@@ -915,6 +915,8 @@ const Interview = () => {
                   background: "var(--bg-card)",
                   border: "1px solid var(--border)",
                   borderRadius: "var(--radius-lg)",
+                  boxShadow: "var(--shadow-sm)",
+                  marginBottom: "16px",
                 }}
               >
                 <h4
