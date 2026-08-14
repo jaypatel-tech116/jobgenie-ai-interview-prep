@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "../auth.form.scss";
 import { useNavigate, NavLink } from "react-router";
 import { forgotPassword } from "../services/auth.api";
-import SmallLogo from "../../../images/SmallLogo.png";
 import { useToast } from "../../../components/Toast/ToastContext";
 
 const ForgotPassword = () => {
@@ -40,7 +39,7 @@ const ForgotPassword = () => {
       <div className="card">
         <div className="cardTop">
           <div className="logoWrap">
-            <img src={SmallLogo} alt="JobGenie" className="logo" />
+            <img src="/images/SmallLogo.png" alt="JobGenie" className="logo" />
           </div>
           <h2 className="title">Reset Password</h2>
           <p className="sub">Enter your email and we'll send you an OTP to reset your password.</p>

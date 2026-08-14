@@ -3,7 +3,6 @@ import "../auth.form.scss";
 import { useNavigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
 import { requestEmailVerification, confirmEmailVerification } from "../services/auth.api";
-import SmallLogo from "../../../images/SmallLogo.png";
 import { useToast } from "../../../components/Toast/ToastContext";
 
 const VerifyEmail = () => {
@@ -99,7 +98,7 @@ const VerifyEmail = () => {
       <div className="card">
         <div className="cardTop">
           <div className="logoWrap">
-            <img src={SmallLogo} alt="JobGenie" className="logo" />
+            <img src="/images/SmallLogo.png" alt="JobGenie" className="logo" />
           </div>
           <h2 className="title">Verify Your Email</h2>
           <p className="sub">Please verify your email address to access JobGenie features.</p>

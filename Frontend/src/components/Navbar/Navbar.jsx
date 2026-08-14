@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router";
 import styles from "./Navbar.module.scss";
-import MainLogo from "../../images/MainLogo.png";
 import { useAuth } from "../../features/auth/hooks/useAuth";
 
 const Navbar = () => {
@@ -116,7 +115,7 @@ const Navbar = () => {
       <div className={styles.inner}>
         {/* Logo */}
         <NavLink to="/" className={styles.logo} onClick={handleNavClick}>
-          <img src={MainLogo} alt="JobGenie" height={34} />
+          <img src="/images/MainLogo.png" alt="JobGenie" height={34} />
         </NavLink>
 
         {/* Desktop links */}
@@ -265,7 +264,7 @@ const Navbar = () => {
               className={styles.mobileLogo}
               onClick={handleNavClick}
             >
-              <img src={MainLogo} alt="JobGenie" height={32} />
+              <img src="/images/MainLogo.png" alt="JobGenie" height={32} />
             </NavLink>
             <button
               type="button"

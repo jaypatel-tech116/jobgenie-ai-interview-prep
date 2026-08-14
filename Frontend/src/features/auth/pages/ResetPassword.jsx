@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "../auth.form.scss";
 import { useNavigate, useLocation, NavLink } from "react-router";
 import { resetPassword } from "../services/auth.api";
-import SmallLogo from "../../../images/SmallLogo.png";
 import { useToast } from "../../../components/Toast/ToastContext";
 
 const ResetPassword = () => {
@@ -54,7 +53,7 @@ const ResetPassword = () => {
       <div className="card">
         <div className="cardTop">
           <div className="logoWrap">
-            <img src={SmallLogo} alt="JobGenie" className="logo" />
+            <img src="/images/SmallLogo.png" alt="JobGenie" className="logo" />
           </div>
           <h2 className="title">New Password</h2>
           <p className="sub">Enter the code sent to your email and your new password.</p>

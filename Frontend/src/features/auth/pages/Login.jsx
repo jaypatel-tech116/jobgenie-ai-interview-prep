@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "../auth.form.scss";
 import { NavLink, useNavigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
-import SmallLogo from "../../../images/SmallLogo.png";
 import { useToast } from "../../../components/Toast/ToastContext";
 
 const Login = () => {
@@ -40,7 +39,7 @@ const Login = () => {
 
         <div className="cardTop">
           <div className="logoWrap">
-            <img src={SmallLogo} alt="JobGenie" className="logo" />
+            <img src="/images/SmallLogo.png" alt="JobGenie" className="logo" />
           </div>
           <h2 className="title">Welcome Back</h2>
           <p className="sub">Sign in to continue your journey</p>

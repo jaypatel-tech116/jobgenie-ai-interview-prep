@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./Frontend/src/images/MainLogo.png" alt="JobGenie Banner" width="100%" />
+  <img src="./Frontend/public/images/MainLogo.png" alt="JobGenie Banner" width="100%" />
 </p>
 
 <h1 align="center">✦ JobGenie — AI-Powered Interview Prep & Resume Builder</h1>

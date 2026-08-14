@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
 import "../auth.form.scss";
-import SmallLogo from "../../../images/SmallLogo.png";
 import { useToast } from "../../../components/Toast/ToastContext";
 
 const Register = () => {
@@ -51,7 +50,7 @@ const Register = () => {
       <div className="card">
         <div className="cardTop">
           <div className="logoWrap">
-            <img src={SmallLogo} alt="JobGenie" className="logo" />
+            <img src="/images/SmallLogo.png" alt="JobGenie" className="logo" />
           </div>
           <h2 className="title">Create Account</h2>
           <p className="sub">Start your job-winning journey today</p>

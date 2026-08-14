@@ -1,7 +1,6 @@
 import { NavLink } from "react-router";
 import { Globe, Mail, Zap } from "lucide-react";
 import styles from "./Footer.module.scss";
-import SmallLogo from "../../images/SmallLogo.png";
 import { useAuth } from "../../features/auth/hooks/useAuth";
 
 const Footer = () => {
@@ -11,7 +10,7 @@ const Footer = () => {
     <footer className={styles.footer}>
       <div className={styles.inner}>
         <div className={styles.brand}>
-          <img src={SmallLogo} alt="JobGenie" className={styles.logo} />
+          <img src="/images/SmallLogo.png" alt="JobGenie" className={styles.logo} />
           <p className={styles.tagline}>
             Your AI-powered career genie - turning resumes into opportunities.
           </p>
