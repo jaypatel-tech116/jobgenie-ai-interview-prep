@@ -9,6 +9,12 @@
 </p>
 
 <p align="center">
+  <a href="https://jobgenie-ai-interview-prep.vercel.app" target="_blank">
+    <img src="https://img.shields.io/badge/🌐_Live_Demo-jobgenie--ai--interview--prep.vercel.app-d9a514?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo" />
+  </a>
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white" />
   <img src="https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite&logoColor=white" />
   <img src="https://img.shields.io/badge/Node.js-Express_5-339933?style=for-the-badge&logo=node.js&logoColor=white" />
@@ -19,6 +25,7 @@
 </p>
 
 <p align="center">
+  <a href="https://jobgenie-ai-interview-prep.vercel.app" target="_blank"><strong>🌐 Live Demo</strong></a> •
   <a href="#-features">Features</a> •
   <a href="#-tech-stack">Tech Stack</a> •
   <a href="#-architecture">Architecture</a> •
@@ -27,6 +34,13 @@
   <a href="#-project-structure">Project Structure</a> •
   <a href="#-contributing">Contributing</a>
 </p>
+
+---
+
+## 🌐 Live Demo
+
+Experience **JobGenie** live in production:
+👉 **[https://jobgenie-ai-interview-prep.vercel.app](https://jobgenie-ai-interview-prep.vercel.app)**
 
 ---
 
