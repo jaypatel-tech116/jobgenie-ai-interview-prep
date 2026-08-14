@@ -240,15 +240,18 @@ const Home = () => (
       </div>
 
       <div className={styles.aiGrid}>
-        {AI_MODEL_HIGHLIGHTS.map(({ icon: IconComp, title, desc }) => (
-          <div key={title} className={styles.aiCard}>
-            <div className={styles.aiCardIcon}>
-              <IconComp size={24} color="var(--gold-light)" />
+        {AI_MODEL_HIGHLIGHTS.map((item) => {
+          const IconComp = item.icon;
+          return (
+            <div key={item.title} className={styles.aiCard}>
+              <div className={styles.aiCardIcon}>
+                <IconComp size={24} color="var(--gold-light)" />
+              </div>
+              <h3 className={styles.aiCardTitle}>{item.title}</h3>
+              <p className={styles.aiCardDesc}>{item.desc}</p>
             </div>
-            <h3 className={styles.aiCardTitle}>{title}</h3>
-            <p className={styles.aiCardDesc}>{desc}</p>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
 
@@ -288,18 +291,21 @@ const Home = () => (
       </div>
 
       <div className={styles.featGrid}>
-        {FEATURES.map(({ icon: IconComponent, tag, title, desc }) => (
-          <div key={title} className={styles.featCard}>
-            <div className={styles.featTag}>
-              <span>{tag}</span>
+        {FEATURES.map((feat) => {
+          const IconComponent = feat.icon;
+          return (
+            <div key={feat.title} className={styles.featCard}>
+              <div className={styles.featTag}>
+                <span>{feat.tag}</span>
+              </div>
+              <div className={styles.featIcon}>
+                <IconComponent size={22} color="var(--gold-light)" strokeWidth={2} />
+              </div>
+              <h3 className={styles.featTitle}>{feat.title}</h3>
+              <p className={styles.featDesc}>{feat.desc}</p>
             </div>
-            <div className={styles.featIcon}>
-              <IconComponent size={22} color="var(--gold-light)" strokeWidth={2} />
-            </div>
-            <h3 className={styles.featTitle}>{title}</h3>
-            <p className={styles.featDesc}>{desc}</p>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
 
