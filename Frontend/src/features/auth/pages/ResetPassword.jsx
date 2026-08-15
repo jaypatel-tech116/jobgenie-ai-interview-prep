@@ -52,9 +52,9 @@ const ResetPassword = () => {
 
       <div className="card">
         <div className="cardTop">
-          <div className="logoWrap">
-            <img src="/images/SmallLogo.png" alt="JobGenie" className="logo" />
-          </div>
+          <NavLink to="/" className="logoWrap">
+            <img src="/images/MainLogo.png" alt="JobGenie" className="logo" />
+          </NavLink>
           <h2 className="title">New Password</h2>
           <p className="sub">Enter the code sent to your email and your new password.</p>
         </div>

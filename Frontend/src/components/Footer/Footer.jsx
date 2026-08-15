@@ -10,7 +10,7 @@ const Footer = () => {
     <footer className={styles.footer}>
       <div className={styles.inner}>
         <div className={styles.brand}>
-          <img src="/images/SmallLogo.png" alt="JobGenie" className={styles.logo} />
+          <img src="/images/MainLogo.png" alt="JobGenie" className={styles.logo} />
           <p className={styles.tagline}>
             Your AI-powered career genie - turning resumes into opportunities.
           </p>

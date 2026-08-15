@@ -38,9 +38,9 @@ const Login = () => {
         {/* Top accent line is handled via border-top in CSS */}
 
         <div className="cardTop">
-          <div className="logoWrap">
-            <img src="/images/SmallLogo.png" alt="JobGenie" className="logo" />
-          </div>
+          <NavLink to="/" className="logoWrap">
+            <img src="/images/MainLogo.png" alt="JobGenie" className="logo" />
+          </NavLink>
           <h2 className="title">Welcome Back</h2>
           <p className="sub">Sign in to continue your journey</p>
         </div>

@@ -38,9 +38,9 @@ const ForgotPassword = () => {
 
       <div className="card">
         <div className="cardTop">
-          <div className="logoWrap">
-            <img src="/images/SmallLogo.png" alt="JobGenie" className="logo" />
-          </div>
+          <NavLink to="/" className="logoWrap">
+            <img src="/images/MainLogo.png" alt="JobGenie" className="logo" />
+          </NavLink>
           <h2 className="title">Reset Password</h2>
           <p className="sub">Enter your email and we'll send you an OTP to reset your password.</p>
         </div>

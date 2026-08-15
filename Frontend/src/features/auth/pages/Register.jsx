@@ -49,9 +49,9 @@ const Register = () => {
 
       <div className="card">
         <div className="cardTop">
-          <div className="logoWrap">
-            <img src="/images/SmallLogo.png" alt="JobGenie" className="logo" />
-          </div>
+          <NavLink to="/" className="logoWrap">
+            <img src="/images/MainLogo.png" alt="JobGenie" className="logo" />
+          </NavLink>
           <h2 className="title">Create Account</h2>
           <p className="sub">Start your job-winning journey today</p>
         </div>
