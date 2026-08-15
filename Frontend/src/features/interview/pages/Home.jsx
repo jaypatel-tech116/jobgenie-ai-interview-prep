@@ -180,7 +180,9 @@ const Home = () => (
         <h1 className={styles.heroTitle}>
           Land Your Dream Job
           <br />
-          with <em className={styles.magic}>JobGenie</em>
+          with
+          <br />
+          <em className={styles.magic}>JobGenie</em>
         </h1>
 
         <p className={styles.heroSub}>

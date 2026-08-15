@@ -11,15 +11,15 @@ $bp-lg: 1100px;
 /* ── HERO ── */
 .hero {
   position: relative;
-  min-height: 70vh;
+  min-height: calc(100vh - var(--nav-height, 64px));
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 70px 24px 50px;
+  padding: 40px 24px;
 
   @media (max-width: $bp-md) {
-    min-height: 60vh;
-    padding: 50px 20px;
+    min-height: auto;
+    padding: 40px 20px;
   }
 }
 
@@ -99,7 +99,7 @@ $bp-lg: 1100px;
   text-transform: uppercase;
   padding: 7px 20px;
   border-radius: var(--radius-pill);
-  margin-bottom: 22px;
+  margin-bottom: 18px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
 
   @media (max-width: $bp-md) {
@@ -111,10 +111,10 @@ $bp-lg: 1100px;
 
 .heroTitle {
   font-family: var(--font-display);
-  font-size: clamp(2.8rem, 4.5vw, 4rem);
+  font-size: clamp(2.4rem, 4vw, 3.5rem);
   line-height: 1.15;
   color: var(--text-primary);
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .magic {
@@ -126,11 +126,11 @@ $bp-lg: 1100px;
 }
 
 .heroSub {
-  font-size: clamp(0.9rem, 1.4vw, 1.08rem);
+  font-size: clamp(0.9rem, 1.4vw, 1.05rem);
   color: var(--text-secondary);
   max-width: 640px;
-  margin: 0 auto 32px;
-  line-height: 1.7;
+  margin: 0 auto 28px;
+  line-height: 1.65;
 
   strong {
     color: var(--gold-light);
@@ -143,7 +143,7 @@ $bp-lg: 1100px;
   gap: 16px;
   justify-content: center;
   flex-wrap: wrap;
-  margin-bottom: 48px;
+  margin-bottom: 36px;
 
   a {
     display: inline-flex;
